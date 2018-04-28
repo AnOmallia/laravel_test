@@ -1,4 +1,4 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app')
 
 @section('content')
 
@@ -39,5 +39,14 @@
     {{ $companies->links() }}
 </div>
 </div>
+
+@endsection --}}
+
+
+@extends('layouts.app')
+
+@section('content')
+
+	<div id="app"></div>
 
 @endsection

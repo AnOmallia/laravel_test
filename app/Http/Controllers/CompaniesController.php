@@ -10,7 +10,7 @@ class CompaniesController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('admin');
+        // $this->middleware('admin');
     }
     /**
      * Display a listing of the resource.
@@ -19,8 +19,9 @@ class CompaniesController extends Controller
      */
     public function index()
     {
-        $companies = Company::paginate(10);
-        return view('companies.index', ['companies' => $companies]);
+        //$companies = Company::paginate(10);
+        //return view('companies.index', ['companies' => $companies]);
+        return view('companies.index');
     }
 
     /**
