@@ -9,12 +9,12 @@
         <title>Laravel</title>
 
         <!-- Fonts -->
-        {{-- <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css"> --}}
+        <!-- <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css"> -->
 
         <!-- Styles -->
         <link href="/css/app.css" rel="stylesheet" type="text/css">
 
-        {{-- <style>
+        <!-- <style>
             html, body {
                 background-color: #fff;
                 color: #636b6f;
@@ -65,11 +65,11 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
-        </style> --}}
+        </style> -->
     </head>
     <body>
-        <div id="app"></div>
-        {{-- <div class="flex-center position-ref full-height">
+        <div id="welcome"></div>
+       <!--  <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
@@ -93,7 +93,7 @@
                     <a href="https://github.com/laravel/laravel">GitHub</a>
                 </div>
             </div>
-        </div> --}}
+        </div> -->
         <script type="text/javascript" src="/js/app.js"></script>
     </body>
 </html>

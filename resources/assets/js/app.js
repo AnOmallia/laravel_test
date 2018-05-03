@@ -17,5 +17,6 @@ window.axios = require('axios');
  */
 
 require('./components/Example');
+require('./components/Welcome');
 require('./components/Companies');
 require('./components/Create');

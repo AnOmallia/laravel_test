@@ -1,5 +1,5 @@
 <?php
-
+//dd(79);
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,4 +19,4 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('company', 'CompaniesController');
-// Route::resource('employee', 'EmployeesController');
+Route::resource('employee', 'EmployeesController');
