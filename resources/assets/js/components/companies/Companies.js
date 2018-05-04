@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { HashRouter , Link } from 'react-router-dom';
 
 export default class Companies extends Component {
     constructor(props){
@@ -17,16 +18,17 @@ export default class Companies extends Component {
             this.setState({
                 data: response.data
             })
-            console.log(this.state.data[0])
+            //console.log(this.state.data[0])
         }).catch(error => {
-            console.log(error);
+            // console.log(error);
         })
     }
 
     render() {
         return (
             <div className="container">
-                <a type="button" className="btn btn-info" href="#"><i className="fa fa-plus" aria-hidden="true"></i> Add Company</a>
+                {/*<a type="button" className="btn btn-info" link="companies/create"><i className="fa fa-plus" aria-hidden="true"></i> Add Company</a>*/}
+                <Link to="/companies/create">Add Company</Link>
                 <div className="table-responsive">
                     <table className="table table-bordered table-hover table-striped">
                         <thead>
@@ -54,7 +56,7 @@ export default class Companies extends Component {
                                     </div>
                                 </td>
                             </tr>
-                        )
+                            )
                         )}
                         </tbody>
                     </table>
@@ -62,8 +64,4 @@ export default class Companies extends Component {
             </div>
         );
     }
-}
-
-if (document.getElementById('app')) {
-    ReactDOM.render(<Companies />, document.getElementById('app'));
 }

@@ -23,6 +23,8 @@
     },
     "dependencies": {
         "browserify": "^16.2.0",
-        "envify": "^4.1.0"
+        "envify": "^4.1.0",
+        "react-router": "^4.2.0",
+        "react-router-dom": "^4.2.2"
     }
 }

@@ -25,14 +25,14 @@
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
-                @auth
+                <!-- @auth
                 <a class="btn btn-primary" href="{{ url('/company') }}">
                     Companies
                 </a>
                 <a class="btn btn-primary" href="{{ url('/employee') }}">
                     Employees
                 </a>
-                @endauth
+                @endauth -->
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -73,7 +73,9 @@
         </nav>
 
         <main class="py-4">
-            @yield('content')
+            <div id="app">
+                @yield('content')
+            </div>
         </main>
     </div>
     <!-- Scripts -->

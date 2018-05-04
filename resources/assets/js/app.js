@@ -16,7 +16,20 @@ window.axios = require('axios');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-require('./components/Example');
-require('./components/Welcome');
-require('./components/Companies');
-require('./components/Create');
+require('./components/App');
+// require('./components/Example');
+// require('./components/Welcome');
+// require('./components/Companies');
+// require('./components/Create');
+// require('./components/Navbar');
+// require('./components/Home');
+
+// var app = Component ({
+// 	render() {
+// 		return (
+// 			<Router>
+// 				<Route path='/something' Component={Companies}></Route>
+// 			</Router>
+// 		);
+// 	}
+// })
