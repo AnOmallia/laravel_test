@@ -17,7 +17,11 @@ export default class App extends Component {
                     <Switch>
                     <Route exact path='/' component={Home} />
                         <Route exact path='/companies' component={Companies} />
+                        {/*<Route exact path='/companies/create' component={CompaniesCreate} />*/}
                         <Route exact path='/companies/create' component={CompaniesCreate} />
+                        <Route exact path='/companies/show/:id' component={CompaniesCreate} />
+                        <Route exact path='/companies/edit/:company' component={CompaniesCreate} />
+                        {/*<Route name="ideas" path="/:testvalue" handler={CreateIdeaView} />*/}
                     </Switch>
                 </HashRouter>
             </div>

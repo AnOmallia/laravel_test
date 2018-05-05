@@ -46,9 +46,9 @@ class CompaniesController extends Controller
             $success = $request->logo->move($path, $imageName);
             if ($success) {
                 $input['logo'] = $imageName;
-                $company = Company::create($company->id);
+                $company = Company::create($company);
                 //return redirect('company/' . $company->id);
-                return response()->json($company);
+                return response()->json($company->id);
             }
             return response()->json(0);
         } else {
@@ -65,7 +65,8 @@ class CompaniesController extends Controller
      */
     public function show($id)
     {
-        //
+        $company = Company::whereId($id)->get()->first();
+        return response()->json($company);
     }
 
     /**
@@ -77,7 +78,36 @@ class CompaniesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'logo' => 'mimes:jpeg,png,jpg|dimensions:min_width=100,min_height=100',
+        ]);
+
+        $input = $request->all();
+        unset($input['_method']);
+        unset($input['_token']);
+        $company = Company::whereId($id)->first();
+        if ($request->logo) {
+            $path = '../storage/app/public/logos';
+            if (!file_exists($path)) {
+                File::makeDirectory($path);
+            }
+
+            if($company->logo) {
+                File::delete($path."/".$company->logo);
+            }
+            $imageName = time().'.'.$request->logo->getClientOriginalExtension();
+            $success = $request->logo->move($path, $imageName);
+            if ($success) {
+                $input['logo'] = $imageName;
+                $company = Company::find($id)->update($input);
+                return response()->json($company);
+            }
+            return redirect()->back();
+        } else {
+            $company = Company::find($id)->update($input);
+            return response()->json($company);
+        }
     }
 
     /**
@@ -88,6 +118,7 @@ class CompaniesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $company = Company::whereId($id)->delete();
+        return response()->json($company);
     }
 }

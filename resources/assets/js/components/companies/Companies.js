@@ -4,7 +4,6 @@ import { HashRouter , Link } from 'react-router-dom';
 
 export default class Companies extends Component {
     constructor(props){
-        console.log(789)
         super(props);
         this.state = {
             data: []
@@ -28,7 +27,8 @@ export default class Companies extends Component {
         return (
             <div className="container">
                 {/*<a type="button" className="btn btn-info" link="companies/create"><i className="fa fa-plus" aria-hidden="true"></i> Add Company</a>*/}
-                <Link to="/companies/create">Add Company</Link>
+                <Link to="/companies/create/2" >Add Company</Link>
+                {/*<Route path="/:id" component={Child} />*/}
                 <div className="table-responsive">
                     <table className="table table-bordered table-hover table-striped">
                         <thead>

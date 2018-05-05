@@ -1,0 +1,2 @@
+1. Install JWT by running command "composer require tymon/jwt-auth"
+2. Added service provider "Tymon\JWTAuth\Providers\LaravelServiceProvider::class," to config/app.php
