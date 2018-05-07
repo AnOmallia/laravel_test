@@ -16166,6 +16166,8 @@ Link.contextTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_router_dom__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__CompaniesDelete__ = __webpack_require__(114);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__DeleteModal__ = __webpack_require__(115);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -16173,6 +16175,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
 
 
 
@@ -16187,8 +16191,10 @@ var Companies = function (_Component) {
         var _this = _possibleConstructorReturn(this, (Companies.__proto__ || Object.getPrototypeOf(Companies)).call(this, props));
 
         _this.state = {
-            data: []
+            data: [],
+            delId: ''
         };
+        _this.handleDeleteClick = _this.handleDeleteClick.bind(_this);
         return _this;
     }
 
@@ -16209,22 +16215,42 @@ var Companies = function (_Component) {
             });
         }
     }, {
+        key: 'handleDeleteClick',
+        value: function handleDeleteClick(e) {
+            this.setState({
+                delId: e.currentTarget.name
+            });
+            //document.getElementById('modalDelete').setAttribute("name", e.currentTarget.name);
+        }
+
+        // handleModalDeleteClick(e) {
+        //     const sucsess = new CompaniesDelete(e.currentTarget.name);
+        //     console.log(sucsess)
+        //     if(sucsess){
+        //         document.getElementById(`a_${e.currentTarget.name}`).style.display = "none";
+        //     }
+        // }
+
+    }, {
         key: 'render',
         value: function render() {
+            var _this3 = this;
+
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
                 { className: 'container' },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     __WEBPACK_IMPORTED_MODULE_2_react_router_dom__["b" /* Link */],
-                    { to: '/companies/create/2' },
-                    'Add Company'
+                    { className: 'btn btn-primary', to: '/companies/create' },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-plus', 'aria-hidden': 'true' }),
+                    ' Add Company '
                 ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
                     { className: 'table-responsive' },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'table',
-                        { className: 'table table-bordered table-hover table-striped' },
+                        { className: 'table table-bordered table-hover' },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             'thead',
                             null,
@@ -16264,7 +16290,7 @@ var Companies = function (_Component) {
                             this.state.data.map(function (company, i) {
                                 return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                     'tr',
-                                    { key: company.id },
+                                    { key: company.id, id: 'a_' + company.id },
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'td',
                                         null,
@@ -16283,7 +16309,7 @@ var Companies = function (_Component) {
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'td',
                                         null,
-                                        company.email
+                                        company.logo
                                     ),
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'td',
@@ -16292,18 +16318,18 @@ var Companies = function (_Component) {
                                             'div',
                                             { className: 'btn-group' },
                                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                'a',
-                                                { type: 'button', className: 'btn btn-info', href: 'company' },
+                                                __WEBPACK_IMPORTED_MODULE_2_react_router_dom__["b" /* Link */],
+                                                { className: 'btn btn-info', to: '/companies/show/' + company.id },
                                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-eye', 'aria-hidden': 'true' })
                                             ),
                                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                'a',
-                                                { type: 'button', className: 'btn btn-primary', href: 'companyidedit' },
+                                                __WEBPACK_IMPORTED_MODULE_2_react_router_dom__["b" /* Link */],
+                                                { className: 'btn btn-primary', to: '/companies/edit/' + company.id },
                                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-edit', 'aria-hidden': 'true' })
                                             ),
                                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                                 'button',
-                                                { type: 'submit', className: 'btn btn-danger' },
+                                                { className: 'btn btn-danger', 'data-toggle': 'modal', name: company.id, 'data-target': '#myModal', onClick: _this3.handleDeleteClick },
                                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-trash', 'aria-hidden': 'true' })
                                             )
                                         )
@@ -16312,7 +16338,8 @@ var Companies = function (_Component) {
                             })
                         )
                     )
-                )
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__DeleteModal__["a" /* default */], { id: this.state.delId })
             );
         }
     }]);
@@ -60248,13 +60275,21 @@ var Home = function (_Component) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_router__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_router_dom__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__CompaniesDelete__ = __webpack_require__(114);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__DeleteModal__ = __webpack_require__(115);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
 
 
 
@@ -60276,19 +60311,19 @@ var CompaniesCreate = function (_Component) {
             name: "",
             email: "",
             website: "",
-            logo: ""
+            logo: "",
+            delId: ""
         };
         _this.handleClick = _this.handleClick.bind(_this);
-        _this.handleDeleteClick = _this.handleDeleteClick.bind(_this);
         _this.handleEditClick = _this.handleEditClick.bind(_this);
+        _this.handleValueChange = _this.handleValueChange.bind(_this);
+        _this.handleDeleteClick = _this.handleDeleteClick.bind(_this);
         if (typeof _this.props.match.params.id !== "undefined") {
             _this.getData(_this.props.match.params.id);
         }
         if (typeof _this.props.match.params.company !== "undefined") {
             _this.getData(_this.props.match.params.company);
         }
-        //console.log(typeof this.props.match.params.id)
-        //console.log(this.props.match.params.valueOf.length)
         return _this;
     }
 
@@ -60305,89 +60340,83 @@ var CompaniesCreate = function (_Component) {
                     website: response.data.website,
                     logo: response.data.logo
                 });
-                // console.log(response.data)
+                console.log(_this2.state);
             }).catch(function (error) {
-                // console.log(error);
+                console.log(error);
             });
         }
-        /*editData(id){
-        	axios.get(`/api/company/${id}`).then(response => {
-                this.setState({
-                    id: response.data.id,
-                    name: response.data.name,
-                    email: response.data.email,
-                    website: response.data.website,
-                    logo: response.data.logo,
-                })
-                // console.log(response.data)
-            }).catch(error => {
-                // console.log(error);
-            })
-        }*/
-
     }, {
         key: 'handleClick',
         value: function handleClick(e) {
             var _this3 = this;
 
             e.preventDefault();
+            var action = "";
+            action = e.currentTarget.name == "create" ? '/api/company' : '/api/update/' + this.state.id;
             var form = document.forms.namedItem("compForm");
             var formData = new FormData(form);
 
-            axios.post('/api/company', formData, { headers: { 'Content-Type': 'multipart/form-data' } }).then(function (response) {
+            axios.post(action, formData, { headers: { 'Content-Type': 'multipart/form-data' } }).then(function (response) {
+                console.log();
                 _this3.setState({
                     id: response.data,
-                    redirect: true,
-                    name: response.data.name,
-                    email: response.data.email,
-                    website: response.data.website,
-                    logo: response.data.logo
+                    redirect: true
+                    // name: response.data.name,
+                    // email: response.data.email,
+                    // website: response.data.website,
+                    // logo: response.data.logo,
                 });
                 console.log(_this3.state);
             }).catch(function (error) {
-                // console.log(error);
+                console.log(error);
             });
         }
+
+        // handleModalDeleteClick(e) {
+        //     const sucsess = new CompaniesDelete(e.currentTarget.name);
+        //     if(sucsess){
+        //         document.getElementById(`a_${e.currentTarget.name}`).style.display = "none";
+        //     }
+        // }
+
     }, {
-        key: 'handleDeleteClick',
-        value: function handleDeleteClick(e) {
-            console.log(this.state);
-            e.preventDefault();
-            axios.delete('/api/company/' + this.state.id).then(function (response) {
-                console.log(response.data);
-            }).catch(function (error) {
-                // console.log(error);
-            });
+        key: 'handleValueChange',
+        value: function handleValueChange(e) {
+            var key = e.currentTarget.name;
+            this.setState(_defineProperty({}, key, e.target.value));
         }
     }, {
         key: 'handleEditClick',
         value: function handleEditClick(e) {
             var _this4 = this;
 
-            console.log("something");
             e.preventDefault();
             var form = document.forms.namedItem("compForm");
             var formData = new FormData(form);
             axios.post('/api/update/' + this.state.id, formData, { headers: { 'Content-Type': 'multipart/form-data' } }).then(function (response) {
-                console.log(response.data);
                 _this4.setState({
                     id: response.data,
-                    redirect: true,
+                    //redirect: true,
                     name: response.data.name,
                     email: response.data.email,
                     website: response.data.website,
                     logo: response.data.logo
                 });
-                console.log(_this4.state);
             }).catch(function (error) {
-                // console.log(error);
+                console.log(error);
             });
+        }
+    }, {
+        key: 'handleDeleteClick',
+        value: function handleDeleteClick(e) {
+            this.setState({
+                delId: e.currentTarget.name
+            });
+            //document.getElementById('modalDelete').setAttribute("name", e.currentTarget.name);
         }
     }, {
         key: 'render',
         value: function render() {
-            // console.log(this.state);
-            // console.log(this.props.match.params)
             var buttons = void 0;
             var img = this.state.logo !== "" ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: 'storage/logos/' + this.state.logo, alt: 'logo', width: '100px', height: '100px' }) : null;
             if (typeof this.props.match.params.id === "undefined" && typeof this.props.match.params.company === "undefined") {
@@ -60396,8 +60425,8 @@ var CompaniesCreate = function (_Component) {
                     null,
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'button',
-                        { type: 'submit', className: 'btn btn-success', onClick: this.handleClick },
-                        'Save'
+                        { type: 'submit', className: 'btn btn-success', onClick: this.handleClick, name: 'create' },
+                        ' Save  '
                     )
                 );
             } else if (typeof this.props.match.params.id !== "undefined") {
@@ -60405,13 +60434,13 @@ var CompaniesCreate = function (_Component) {
                     'div',
                     null,
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        'button',
-                        { type: 'submit', className: 'btn btn-success', onClick: this.handleClick },
+                        __WEBPACK_IMPORTED_MODULE_3_react_router_dom__["b" /* Link */],
+                        { className: 'btn btn-primary', to: '/companies/edit/' + this.props.match.params.id },
                         'Edit'
                     ),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'button',
-                        { type: 'submit', className: 'btn btn-danger', onClick: this.handleDeleteClick },
+                        { className: 'btn btn-danger', onClick: this.handleDeleteClick, 'data-toggle': 'modal', 'data-target': '#myModal', name: this.props.match.params.id },
                         'Delete'
                     )
                 );
@@ -60421,20 +60450,15 @@ var CompaniesCreate = function (_Component) {
                     null,
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'button',
-                        { type: 'submit', className: 'btn btn-success', onClick: this.handleEditClick },
+                        { type: 'submit', className: 'btn btn-success', name: 'edit', onClick: this.handleClick },
                         'Save'
                     )
                 );
             }
-            // let buttons = (typeof this.props.match.params.id) === "undefined" ?
-            // 	(<button type="submit" className="btn btn-default" onClick={this.handleClick}>Save</button>)
-            // :
-            // 	(<button type="submit" className="btn btn-default" onClick={this.handleClick}>Edit</button>
-            // 	<button type="submit" className="btn btn-default">Delete</button>)
-            // ;
 
             if (this.state.redirect) {
-                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_router__["a" /* Redirect */], { to: '/companies/show/' + this.state.id });
+
+                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_router__["a" /* Redirect */], { to: "/companies" });
             }
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
@@ -60467,7 +60491,7 @@ var CompaniesCreate = function (_Component) {
                                             { htmlFor: 'firstName' },
                                             'Company name:'
                                         ),
-                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', name: 'name', className: 'form-control', id: 'firstName', value: this.state.name })
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', name: 'name', className: 'form-control', id: 'firstName', value: this.state.name, onChange: this.handleValueChange })
                                     ),
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'div',
@@ -60477,7 +60501,7 @@ var CompaniesCreate = function (_Component) {
                                             { htmlFor: 'email' },
                                             'Email address:'
                                         ),
-                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'email', name: 'email', className: 'form-control', id: 'email', value: this.state.email })
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'email', name: 'email', className: 'form-control', id: 'email', value: this.state.email, onChange: this.handleValueChange })
                                     ),
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'div',
@@ -60487,7 +60511,7 @@ var CompaniesCreate = function (_Component) {
                                             { htmlFor: 'company' },
                                             'Website:'
                                         ),
-                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', name: 'website', className: 'form-control', id: 'website', value: this.state.website })
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', name: 'website', className: 'form-control', id: 'website', value: this.state.website, onChange: this.handleValueChange })
                                     ),
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'div',
@@ -60505,18 +60529,14 @@ var CompaniesCreate = function (_Component) {
                             )
                         )
                     )
-                )
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__DeleteModal__["a" /* default */], { id: this.state.delId })
             );
         }
     }]);
 
     return CompaniesCreate;
 }(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
-
-// if (document.getElementById('app')) {
-//     ReactDOM.render(<Create />, document.getElementById('app'));
-// }
-
 
 /* harmony default export */ __webpack_exports__["a"] = (CompaniesCreate);
 
@@ -60525,6 +60545,160 @@ var CompaniesCreate = function (_Component) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 110 */,
+/* 111 */,
+/* 112 */,
+/* 113 */,
+/* 114 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+var CompaniesDelete = function (_Component) {
+    _inherits(CompaniesDelete, _Component);
+
+    function CompaniesDelete(props) {
+        _classCallCheck(this, CompaniesDelete);
+
+        var _this = _possibleConstructorReturn(this, (CompaniesDelete.__proto__ || Object.getPrototypeOf(CompaniesDelete)).call(this, props));
+
+        _this.deleteCompany(props);
+        console.log(props, 'lika');
+        return _this;
+    }
+
+    _createClass(CompaniesDelete, [{
+        key: 'deleteCompany',
+        value: function deleteCompany(id) {
+            axios.delete('/api/company/' + id).then(function (response) {}).catch(function (error) {
+                console.log(error);
+            });
+        }
+    }]);
+
+    return CompaniesDelete;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+/* harmony default export */ __webpack_exports__["a"] = (CompaniesDelete);
+
+/***/ }),
+/* 115 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__companies_CompaniesDelete__ = __webpack_require__(114);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_router__ = __webpack_require__(17);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+
+var DeleteModal = function (_Component) {
+    _inherits(DeleteModal, _Component);
+
+    function DeleteModal(props) {
+        _classCallCheck(this, DeleteModal);
+
+        var _this = _possibleConstructorReturn(this, (DeleteModal.__proto__ || Object.getPrototypeOf(DeleteModal)).call(this, props));
+
+        _this.state = {
+            id: _this.props.id
+        };
+        _this.handleModalDeleteClick = _this.handleModalDeleteClick.bind(_this);
+        return _this;
+    }
+
+    _createClass(DeleteModal, [{
+        key: 'handleModalDeleteClick',
+        value: function handleModalDeleteClick(e) {
+            console.log(789);
+            var sucsess = new __WEBPACK_IMPORTED_MODULE_1__companies_CompaniesDelete__["a" /* default */](e.currentTarget.name);
+            if (sucsess) {
+                console.log(19);
+                if (document.getElementById('a_' + e.currentTarget.name)) {
+                    document.getElementById('a_' + e.currentTarget.name).style.display = "none";
+                }
+                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_router__["a" /* Redirect */], { to: '/companies' });
+            }
+        }
+    }, {
+        key: 'UNSAFE_componentWillReceiveProps',
+        value: function UNSAFE_componentWillReceiveProps(nextProps) {
+            if (nextProps.id != this.props.id) {
+                this.setState({ id: nextProps.id });
+            }
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'modal fade', id: 'myModal', role: 'dialog' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { className: 'modal-dialog modal-sm' },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'div',
+                        { className: 'modal-content' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'div',
+                            { className: 'modal-header' },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'button',
+                                { type: 'button', className: 'close', 'data-dismiss': 'modal' },
+                                '\xD7'
+                            )
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'div',
+                            { className: 'modal-body' },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'p',
+                                null,
+                                'are you sure you want to delete company?'
+                            )
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'div',
+                            { className: 'modal-footer' },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'button',
+                                { type: 'button', className: 'btn btn-default', 'data-dismiss': 'modal', id: 'modalDelete', name: this.state.id, onClick: this.handleModalDeleteClick },
+                                'Close'
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return DeleteModal;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+/* harmony default export */ __webpack_exports__["a"] = (DeleteModal);
 
 /***/ })
 /******/ ]);

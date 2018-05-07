@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, Switch, Redirect } from 'react-router';
+import { HashRouter , Link } from 'react-router-dom';
+import CompaniesDelete from './CompaniesDelete';
+import DeleteModal from './../DeleteModal';
 //import { Redirect } from 'react-router-dom'
 //import { Route, Redirect } from 'react-router';
 
@@ -14,22 +17,22 @@ export default class CompaniesCreate extends Component {
             email: "",
             website: "",
             logo: "",
+            delId:"",
         };
         this.handleClick = this.handleClick.bind(this);
-        this.handleDeleteClick = this.handleDeleteClick.bind(this);
         this.handleEditClick = this.handleEditClick.bind(this);
+        this.handleValueChange = this.handleValueChange.bind(this);
+        this.handleDeleteClick = this.handleDeleteClick.bind(this);
         if(typeof this.props.match.params.id !== "undefined"){
-        	this.getData(this.props.match.params.id);
+            this.getData(this.props.match.params.id);
         }
         if(typeof this.props.match.params.company !== "undefined"){
-        	this.getData(this.props.match.params.company);
+            this.getData(this.props.match.params.company);
         }
-        //console.log(typeof this.props.match.params.id)
-        //console.log(this.props.match.params.valueOf.length)
     }
 
     getData(id){
-    	axios.get(`/api/company/${id}`).then(response => {
+        axios.get(`/api/company/${id}`).then(response => {
             this.setState({
                 id: response.data.id,
                 name: response.data.name,
@@ -37,80 +40,76 @@ export default class CompaniesCreate extends Component {
                 website: response.data.website,
                 logo: response.data.logo,
             })
-            // console.log(response.data)
+        console.log(this.state)
         }).catch(error => {
-            // console.log(error);
+            console.log(error);
         })
     }
-    /*editData(id){
-    	axios.get(`/api/company/${id}`).then(response => {
-            this.setState({
-                id: response.data.id,
-                name: response.data.name,
-                email: response.data.email,
-                website: response.data.website,
-                logo: response.data.logo,
-            })
-            // console.log(response.data)
-        }).catch(error => {
-            // console.log(error);
-        })
-    }*/
 
     handleClick(e) {
-	    e.preventDefault();
+        e.preventDefault();
+        let action = "";
+        action = e.currentTarget.name == "create" ? '/api/company' : `/api/update/${this.state.id}`
 	    let form = document.forms.namedItem("compForm");
 		let formData = new FormData(form);
 		
-		axios.post('/api/company', formData, {headers:{'Content-Type': 'multipart/form-data' }}).then(response => {
+		axios.post(action, formData, {headers:{'Content-Type': 'multipart/form-data' }}).then(response => {
+            console.log()
             this.setState({
                 id: response.data,
                 redirect: true,
-                name: response.data.name,
-                email: response.data.email,
-                website: response.data.website,
-                logo: response.data.logo,
+                // name: response.data.name,
+                // email: response.data.email,
+                // website: response.data.website,
+                // logo: response.data.logo,
             })
-            console.log(this.state)
+        console.log(this.state)
         }).catch(error => {
-            // console.log(error);
+            console.log(error);
         })
 	}
 
-	handleDeleteClick(e) {
-		console.log(this.state)
-	    e.preventDefault();	
-		axios.delete(`/api/company/${this.state.id}`).then(response => {
-            console.log(response.data)
-        }).catch(error => {
-            // console.log(error);
+
+    // handleModalDeleteClick(e) {
+    //     const sucsess = new CompaniesDelete(e.currentTarget.name);
+    //     if(sucsess){
+    //         document.getElementById(`a_${e.currentTarget.name}`).style.display = "none";
+    //     }
+    // }
+
+    handleValueChange(e) {
+        let key = e.currentTarget.name;
+        this.setState({
+            [key]: e.target.value,
         })
-	}
+    }
 
 	handleEditClick(e) {
-		console.log("something")
 	    e.preventDefault();
 	    let form = document.forms.namedItem("compForm");
 		let formData = new FormData(form);
 		axios.post(`/api/update/${this.state.id}`, formData, {headers:{'Content-Type': 'multipart/form-data' }}).then(response => {
-			console.log(response.data)
             this.setState({
                 id: response.data,
-                redirect: true,
+                //redirect: true,
                 name: response.data.name,
                 email: response.data.email,
                 website: response.data.website,
                 logo: response.data.logo,
             })
-            console.log(this.state)
         }).catch(error => {
-            // console.log(error);
+            console.log(error);
         })
 	}
 
+    handleDeleteClick(e) {
+        this.setState({
+                delId: e.currentTarget.name
+            })
+        //document.getElementById('modalDelete').setAttribute("name", e.currentTarget.name);
+    }
+
     render() {
-    	// console.log(this.state);
-    	// console.log(this.props.match.params)
     	let buttons;
     	let img = this.state.logo !== "" ?
 	        (<img src={`storage/logos/${this.state.logo}`} alt="logo" width="100px" height="100px"/>)
@@ -118,24 +117,19 @@ export default class CompaniesCreate extends Component {
 	      (null)
 	    ;
 	    if((typeof this.props.match.params.id) === "undefined" && (typeof this.props.match.params.company) === "undefined"){
-			buttons = (<div><button type="submit" className="btn btn-success" onClick={this.handleClick}>Save</button></div>)
+			buttons = (<div><button type="submit" className="btn btn-success" onClick={this.handleClick} name="create"> Save  </button></div>)
 		} else if((typeof this.props.match.params.id) !== "undefined"){
-			buttons = (<div><button type="submit" className="btn btn-success" onClick={this.handleClick}>Edit</button>
-				<button type="submit" className="btn btn-danger" onClick={this.handleDeleteClick}>Delete</button></div>
+			buttons = (<div><Link className="btn btn-primary" to={`/companies/edit/${this.props.match.params.id}`} >Edit</Link>
+				<button className="btn btn-danger" onClick={this.handleDeleteClick} data-toggle="modal" data-target="#myModal" name={this.props.match.params.id} >Delete</button></div>
 			) 
 		} else if((typeof this.props.match.params.company) !== "undefined"){
-			buttons = (<div><button type="submit" className="btn btn-success" onClick={this.handleEditClick}>Save</button></div>)
+			buttons = (<div><button type="submit" className="btn btn-success" name="edit" onClick={this.handleClick}>Save</button></div>)
 
 		}
-		    // let buttons = (typeof this.props.match.params.id) === "undefined" ?
-		    // 	(<button type="submit" className="btn btn-default" onClick={this.handleClick}>Save</button>)
-		    // :
-		    // 	(<button type="submit" className="btn btn-default" onClick={this.handleClick}>Edit</button>
-		    // 	<button type="submit" className="btn btn-default">Delete</button>)
-		    // ;
 
         if(this.state.redirect){
-			return <Redirect to={`/companies/show/${this.state.id}`} />;
+
+			return <Redirect to={"/companies"} />;
         }
         return (
             <div className="container">
@@ -147,15 +141,15 @@ export default class CompaniesCreate extends Component {
 			                	<form action="#" name="compForm">
 				                	<div className="form-group">
 										<label htmlFor="firstName">Company name:</label>
-										<input type="text" name="name" className="form-control" id="firstName" value={this.state.name} />
+										<input type="text" name="name" className="form-control" id="firstName" value={this.state.name} onChange={this.handleValueChange}/>
 									</div>
 									<div className="form-group">
 										<label htmlFor="email">Email address:</label>
-										<input type="email" name="email" className="form-control" id="email" value={this.state.email} />
+										<input type="email" name="email" className="form-control" id="email" value={this.state.email} onChange={this.handleValueChange} />
 									</div>
 									<div className="form-group">
 										<label htmlFor="company">Website:</label>
-										<input type="text" name="website" className="form-control" id="website" value={this.state.website} />
+										<input type="text" name="website" className="form-control" id="website" value={this.state.website} onChange={this.handleValueChange} />
 									</div>
 									
 									<div className="form-group">
@@ -164,18 +158,13 @@ export default class CompaniesCreate extends Component {
 									</div>
 									{img}
 									{buttons}
-									
-									{/*<button type="submit" className="btn btn-default" onClick={this.handleClick}>Save</button>*/}
 								</form>
 			                </div>
 			            </div>
 			        </div>
 			    </div>
+                <DeleteModal id={this.state.delId} />
 			</div>
         );
     }
 }
-
-// if (document.getElementById('app')) {
-//     ReactDOM.render(<Create />, document.getElementById('app'));
-// }
