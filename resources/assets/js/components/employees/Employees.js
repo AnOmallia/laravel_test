@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter , Link } from 'react-router-dom';
-import CompaniesDelete from './CompaniesDelete';
+import CompaniesDelete from './EmployeesDelete';
 import DeleteModal from './../DeleteModal';
 
-export default class Companies extends Component {
+export default class Employees extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -17,7 +17,7 @@ export default class Companies extends Component {
     componentWillMount(){
         let $this = this;
 
-        axios.get('/api/company').then(response => {
+        axios.get('api/employee').then(response => {
             this.setState({
                 data: response.data
             })
@@ -28,38 +28,40 @@ export default class Companies extends Component {
 
     handleDeleteClick(e) {
         this.setState({
-                delId: e.currentTarget.name
-            })
+            delId: e.currentTarget.name
+        })
     }
 
 
     render() {
         return (
             <div className="container">
-                <Link className="btn btn-primary" to="/companies/create" ><i className="fa fa-plus" aria-hidden="true"></i> Add Company </Link>
+                <Link className="btn btn-primary" to="/employees/create" ><i className="fa fa-plus" aria-hidden="true"></i> Add Employee </Link>
                 <div className="table-responsive">
                     <table className="table table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th>Name</th>
+                                <th>Firstname</th>
+                                <th>Lastname</th>
                                 <th>Email</th>
-                                <th>Website</th>
-                                <th>Logo</th>
+                                <th>Phone</th>
+                                <th>Company</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                        {this.state.data.map((company, i) => (
-                            <tr key={company.id} id={`a_${company.id}`}>
-                                <td>{company.name}</td>
-                                <td>{company.email}</td>
-                                <td>{company.website}</td>
-                                <td>{company.logo}</td>
+                        {this.state.data.map((employee, i) => (
+                            <tr key={employee.id} id={`a_${employee.id}`}>
+                                <td>{employee.first_name}</td>
+                                <td>{employee.last_name}</td>
+                                <td>{employee.email}</td>
+                                <td>{employee.phone}</td>
+                                <td>{employee.companies.name}</td>
                                 <td>
                                     <div className="btn-group">
-                                        <Link className="btn btn-info" to={`/companies/show/${company.id}`} ><i className="fa fa-eye" aria-hidden="true"></i></Link>
-                                        <Link className="btn btn-primary" to={`/companies/edit/${company.id}`} ><i className="fa fa-edit" aria-hidden="true"></i></Link>
-                                        <button className="btn btn-danger" data-toggle="modal" name={company.id} data-target="#myModal" onClick={this.handleDeleteClick} ><i className="fa fa-trash" aria-hidden="true"></i></button>
+                                        <Link className="btn btn-info" to={`/employees/show/${employee.id}`} ><i className="fa fa-eye" aria-hidden="true"></i></Link>
+                                        <Link className="btn btn-primary" to={`/employees/edit/${employee.id}`} ><i className="fa fa-edit" aria-hidden="true"></i></Link>
+                                        <button className="btn btn-danger" data-toggle="modal" name={employee.id} data-target="#myModal" onClick={this.handleDeleteClick} ><i className="fa fa-trash" aria-hidden="true"></i></button>
                                     </div>
                                 </td>
                             </tr>

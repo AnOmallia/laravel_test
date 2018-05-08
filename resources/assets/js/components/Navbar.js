@@ -1,48 +1,27 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, Switch } from 'react-router'
-import Companies from './Companies';
-
+import { HashRouter , Link } from 'react-router-dom';
 
 
 export default class Navbar extends Component {
-    // constructor(props){
-    //     super(props);
-    //     // this.state = {
-    //     //     name: '',
-    //     // }
-    // }
-
-    componentWillMount(){
-    	console.log('something');
-        // let $this = this;
-
-        // axios.get('/api/company').then(response => {
-        //     this.setState({
-        //         data: response.data
-        //     })
-        //     console.log(this.state.data[0])
-        // }).catch(error => {
-        //     console.log(error);
-        // })
-    }
 
     render() {
         return (
-        	<div>
-	            <a className="btn btn-primary" href="/companies">
-	                Companies
-	            </a>
-	            <a className="btn btn-primary" href="/employee">
-	                Employees
-	            </a>
-            </div>
+            <nav className="navbar navbar-inverse">
+                <div className="container-fluid">
+                    <div className="navbar-header">
+                        <Link className="navbar-brand" to="/">Home</Link>
+                    </div>
+                    <ul className="nav navbar-nav">
+                        <li><Link to="/companies">Companies</Link></li>
+                        <li><Link to="/employees">Employees</Link></li>
+                    </ul>
+                    <ul className="nav navbar-nav navbar-right">
+                        <li><a href="#"><span className="glyphicon glyphicon-log-in"></span> Log Out</a></li>
+                    </ul>
+                </div>
+            </nav>
         );
     }
 }
-
-// if (document.getElementById('navbtn')) {
-//     ReactDOM.render(<Navbar />, document.getElementById('navbtn'));
-// }
-
-

@@ -20,5 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::resource('company', 'Api\CompaniesController');
+Route::resource('employee', 'Api\EmployeesController');
 Route::post('update/{id}', 'Api\CompaniesController@update');
-//Route::apiResource('employee', 'Api\EmployeesController');
+Route::post('employee/update/{id}', 'Api\EmployeesController@update');
+Route::get('getcompanies', 'Api\EmployeesController@getCompanies');

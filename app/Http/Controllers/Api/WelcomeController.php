@@ -18,12 +18,6 @@ class WelcomeController extends Controller
     public function index()
     {
         $is_auth = Auth::user();
-    	//dd($is_auth);
-        // dd(Company::all());
         return response()->json($is_auth);
     }
 }
-
-// if (Auth::check()) {
-//     // The user is logged in...
-// }

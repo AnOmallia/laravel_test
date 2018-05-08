@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\CompaniesRequest;
 use App\Http\Controllers\Controller;
 use App\Company;
 use File;
@@ -27,15 +28,9 @@ class CompaniesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CompaniesRequest $request)
     {
-        //dd(789);
-        $request->validate([
-            'name' => 'required',
-            'logo' => 'mimes:jpeg,png,jpg,svg|dimensions:min_width=100,min_height=100',
-        ]);
         $input = $request->all();
-        //dd($input);
         unset($input['_token']);
         if($request->logo){
             $path = '../storage/app/public/logos';
@@ -48,7 +43,6 @@ class CompaniesController extends Controller
             if ($success) {
                 $input['logo'] = $imageName;
                 $company = Company::create($input);
-                //return redirect('company/' . $company->id);
                 return response()->json($company->id);
             }
             return response()->json(0);
@@ -77,12 +71,8 @@ class CompaniesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CompaniesRequest $request, $id)
     {
-        $request->validate([
-            'name' => 'required',
-            'logo' => 'mimes:jpeg,png,jpg|dimensions:min_width=100,min_height=100',
-        ]);
 
         $input = $request->all();
         unset($input['_method']);
@@ -120,7 +110,6 @@ class CompaniesController extends Controller
     public function destroy($id)
     {
         $company = Company::whereId($id)->delete();
-        //dd()
         return response()->json($id);
     }
 }

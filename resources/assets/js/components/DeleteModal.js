@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import CompaniesDelete from './companies/CompaniesDelete';
+import EmployeesDelete from './employees/EmployeesDelete';
 import { Router, Route, Switch, Redirect } from 'react-router';
 
 
@@ -8,19 +9,31 @@ export default class DeleteModal extends Component {
 		super(props);
 		this.state = {
             id: this.props.id,
+            redirect: false,
+            page: ","
         }
         this.handleModalDeleteClick = this.handleModalDeleteClick.bind(this);
     }
 
     handleModalDeleteClick(e) {
-    	console.log(789)
-        const sucsess = new CompaniesDelete(e.currentTarget.name);
+        let sucsess = "";
+        let page = "";
+        if (window.location.href.split('/').indexOf("employees") != -1) {
+            sucsess = new EmployeesDelete(e.currentTarget.name);
+            page = "employees";
+
+        } else if (window.location.href.split('/').indexOf("companies") != -1){
+            sucsess = new CompaniesDelete(e.currentTarget.name);
+            page = "companies";
+        }
         if(sucsess){
-        	console.log(19)
         	if(document.getElementById(`a_${e.currentTarget.name}`)){
             	document.getElementById(`a_${e.currentTarget.name}`).style.display = "none";
         	}
-        	return <Redirect to='/companies' />
+        	this.setState({
+                redirect: true,
+                page: page,
+            })
         }
     }
 
@@ -31,6 +44,9 @@ export default class DeleteModal extends Component {
     }
 
 	render() {
+        if(this.state.redirect){
+            return <Redirect to={`/${this.state.page}`} />;
+        }
         return (
         	<div className="modal fade" id="myModal" role="dialog">
                 <div className="modal-dialog modal-sm">
@@ -42,7 +58,7 @@ export default class DeleteModal extends Component {
                             <p>are you sure you want to delete company?</p>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-default" data-dismiss="modal" id="modalDelete" name={this.state.id} onClick={this.handleModalDeleteClick} >Close</button>
+                            <button type="button" className="btn btn-danger" data-dismiss="modal" id="modalDelete" name={this.state.id} onClick={this.handleModalDeleteClick} >Delete</button>
                         </div>
                     </div>
                 </div>

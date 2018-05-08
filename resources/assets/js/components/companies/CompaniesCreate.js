@@ -40,7 +40,6 @@ export default class CompaniesCreate extends Component {
                 website: response.data.website,
                 logo: response.data.logo,
             })
-        console.log(this.state)
         }).catch(error => {
             console.log(error);
         })
@@ -54,28 +53,14 @@ export default class CompaniesCreate extends Component {
 		let formData = new FormData(form);
 		
 		axios.post(action, formData, {headers:{'Content-Type': 'multipart/form-data' }}).then(response => {
-            console.log()
             this.setState({
                 id: response.data,
                 redirect: true,
-                // name: response.data.name,
-                // email: response.data.email,
-                // website: response.data.website,
-                // logo: response.data.logo,
             })
-        console.log(this.state)
         }).catch(error => {
             console.log(error);
         })
 	}
-
-
-    // handleModalDeleteClick(e) {
-    //     const sucsess = new CompaniesDelete(e.currentTarget.name);
-    //     if(sucsess){
-    //         document.getElementById(`a_${e.currentTarget.name}`).style.display = "none";
-    //     }
-    // }
 
     handleValueChange(e) {
         let key = e.currentTarget.name;
@@ -88,10 +73,10 @@ export default class CompaniesCreate extends Component {
 	    e.preventDefault();
 	    let form = document.forms.namedItem("compForm");
 		let formData = new FormData(form);
+        formData.append('_method', 'PUT');
 		axios.post(`/api/update/${this.state.id}`, formData, {headers:{'Content-Type': 'multipart/form-data' }}).then(response => {
             this.setState({
                 id: response.data,
-                //redirect: true,
                 name: response.data.name,
                 email: response.data.email,
                 website: response.data.website,
@@ -103,10 +88,10 @@ export default class CompaniesCreate extends Component {
 	}
 
     handleDeleteClick(e) {
+        e.preventDefault();
         this.setState({
-                delId: e.currentTarget.name
-            })
-        //document.getElementById('modalDelete').setAttribute("name", e.currentTarget.name);
+            delId: e.currentTarget.name,
+        })
     }
 
     render() {

@@ -39,12 +39,8 @@ class CompaniesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CompaniesRequest $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'logo' => 'mimes:jpeg,png,jpg,svg|dimensions:min_width=100,min_height=100',
-        ]);
         $input = $request->all();
         unset($input['_token']);
         if($request->logo){
@@ -99,13 +95,8 @@ class CompaniesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CompaniesRequest $request, $id)
     {
-        $request->validate([
-            'name' => 'required',
-            'logo' => 'mimes:jpeg,png,jpg|dimensions:min_width=100,min_height=100',
-        ]);
-
         $input = $request->all();
         unset($input['_method']);
         unset($input['_token']);

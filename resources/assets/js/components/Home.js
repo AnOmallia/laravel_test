@@ -56,9 +56,3 @@ export default class Home extends Component {
         );
     }
 }
-
-// if (document.getElementById('home')) {
-//     ReactDOM.render(<Home />, document.getElementById('home'));
-// }
-
-
