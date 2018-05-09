@@ -19,8 +19,20 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::resource('company', 'Api\CompaniesController');
-Route::resource('employee', 'Api\EmployeesController');
-Route::post('update/{id}', 'Api\CompaniesController@update');
-Route::post('employee/update/{id}', 'Api\EmployeesController@update');
-Route::get('getcompanies', 'Api\EmployeesController@getCompanies');
+
+
+
+
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+Route::group(['middleware' => ['jwt.auth']], function () {
+  
+	Route::resource('company', 'Api\CompaniesController');
+	Route::resource('employee', 'Api\EmployeesController');
+	Route::post('update/{id}', 'Api\CompaniesController@update');
+	Route::post('employee/update/{id}', 'Api\EmployeesController@update');
+	Route::get('getcompanies', 'Api\EmployeesController@getCompanies');
+});
+
+Route::post('user/login', 'UserController@login');

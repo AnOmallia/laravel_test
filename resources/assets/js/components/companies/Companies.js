@@ -9,15 +9,16 @@ export default class Companies extends Component {
         super(props);
         this.state = {
             data: [],
-            delId: ''
+            delId: '',
+            auth: localStorage.getItem('token'),
         }
         this.handleDeleteClick = this.handleDeleteClick.bind(this);
     }
 
     componentWillMount(){
         let $this = this;
-
-        axios.get('/api/company').then(response => {
+        console.log(789, this.state.auth)
+        axios.get('/api/company', '', {headers:{'Authorization': `Bearer ${this.state.auth}`}}).then(response => {
             this.setState({
                 data: response.data
             })

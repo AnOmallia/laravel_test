@@ -32,21 +32,28 @@ class CompaniesController extends Controller
     {
         $input = $request->all();
         unset($input['_token']);
+
         if($request->logo){
+
             $path = '../storage/app/public/logos';
+
             if (!file_exists($path)) {
                 File::makeDirectory($path);
             }
 
             $imageName = time().'.'.$request->logo->getClientOriginalExtension();
             $success = $request->logo->move($path, $imageName);
+
             if ($success) {
                 $input['logo'] = $imageName;
                 $company = Company::create($input);
                 return response()->json($company->id);
             }
+
             return response()->json(0);
+
         } else {
+
             $company = Company::create($input);
             return response()->json($company->id);
         }
@@ -78,8 +85,11 @@ class CompaniesController extends Controller
         unset($input['_method']);
         unset($input['_token']);
         $company = Company::whereId($id)->first();
+
         if ($request->logo) {
+
             $path = '../storage/app/public/logos';
+
             if (!file_exists($path)) {
                 File::makeDirectory($path);
             }
@@ -87,17 +97,23 @@ class CompaniesController extends Controller
             if($company->logo) {
                 File::delete($path."/".$company->logo);
             }
+
             $imageName = time().'.'.$request->logo->getClientOriginalExtension();
             $success = $request->logo->move($path, $imageName);
+            
             if ($success) {
                 $input['logo'] = $imageName;
                 $company = Company::find($id)->update($input);
                 return response()->json($company);
             }
+
             return redirect()->back();
+
         } else {
+
             $company = Company::find($id)->update($input);
             return response()->json($company);
+
         }
     }
 
