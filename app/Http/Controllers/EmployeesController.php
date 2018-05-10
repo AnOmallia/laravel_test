@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\EmployeesRequest;
-use App\Employee;
-use App\Company;
+use App\Models\Employee;
+use App\Models\Company;
 
 class EmployeesController extends Controller
 {

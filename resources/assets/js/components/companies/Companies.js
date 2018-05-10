@@ -18,7 +18,9 @@ export default class Companies extends Component {
     componentWillMount(){
         let $this = this;
         console.log(789, this.state.auth)
-        axios.get('/api/company', '', {headers:{'Authorization': `Bearer ${this.state.auth}`}}).then(response => {
+        //axios.defaults.headers.common['Authorization'] = "Bearer " + response.data.data.token;
+        //axios.get('/api/company', '', {headers:{'Authorization': `Bearer ${this.state.auth}`}}).then(response => {
+        axios.get('/api/company').then(response => {
             this.setState({
                 data: response.data
             })

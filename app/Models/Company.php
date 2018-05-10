@@ -1,17 +1,17 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Employee extends Model
+class Company extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'employees';
+    protected $table = 'companies';
 
     /**
      * The attributes that are mass assignable.
@@ -19,11 +19,6 @@ class Employee extends Model
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'phone', 'company',
+        'name', 'email', 'website', 'logo',
     ];
-
-    public function companies()
-	{
-	    return $this->belongsTo('App\Company', 'company');
-	}
 }

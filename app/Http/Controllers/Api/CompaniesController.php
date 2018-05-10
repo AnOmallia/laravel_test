@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Requests\CompaniesRequest;
 use App\Http\Controllers\Controller;
-use App\Company;
+use App\Models\Company;
 use File;
 
 

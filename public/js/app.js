@@ -16414,7 +16414,9 @@ var Companies = function (_Component) {
 
             var $this = this;
             console.log(789, this.state.auth);
-            axios.get('/api/company', '', { headers: { 'Authorization': 'Bearer ' + this.state.auth } }).then(function (response) {
+            //axios.defaults.headers.common['Authorization'] = "Bearer " + response.data.data.token;
+            //axios.get('/api/company', '', {headers:{'Authorization': `Bearer ${this.state.auth}`}}).then(response => {
+            axios.get('/api/company').then(function (response) {
                 _this2.setState({
                     data: response.data
                 });
@@ -38863,7 +38865,7 @@ var App = function (_Component) {
             var form = document.forms.namedItem("loginForm");
             var formData = new FormData(form);
             axios.post('/api/user/login', formData, { headers: { 'Content-Type': 'multipart/form-data' } }).then(function (response) {
-                console.log(response);
+                axios.defaults.headers.common['Authorization'] = "Bearer " + response.data.data.token;
                 _this2.setState({
                     token: response.data.data.token,
                     auth: true
@@ -60501,77 +60503,49 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 
-// var app = Component ({
-// 	render() {
-// 		return (
-// 			<Router>
-// 				<Route path={'/something'} Component={Companies}></Route>
-// 			</Router>
-// 		);
-// 	}
-// })
-
 var Home = function (_Component) {
-    _inherits(Home, _Component);
+				_inherits(Home, _Component);
 
-    function Home(props) {
-        _classCallCheck(this, Home);
+				function Home(props) {
+								_classCallCheck(this, Home);
 
-        return _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
-        // this.state = {
-        //     name: '',
-        // }
-    }
+								return _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
+				}
 
-    _createClass(Home, [{
-        key: 'componentWillMount',
-        value: function componentWillMount() {
-            console.log('something');
-            // let $this = this;
+				_createClass(Home, [{
+								key: 'render',
+								value: function render() {
+												return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+																'div',
+																{ className: 'container' },
+																__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+																				'div',
+																				{ className: 'row justify-content-center' },
+																				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+																								'div',
+																								{ className: 'col-md-8' },
+																								__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+																												'div',
+																												{ className: 'card' },
+																												__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+																																'div',
+																																{ className: 'card-header' },
+																																'Dashboard'
+																												),
+																												__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+																																'div',
+																																{ className: 'card-body' },
+																																__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'alert alert-success' }),
+																																'You are logged in!'
+																												)
+																								)
+																				)
+																)
+												);
+								}
+				}]);
 
-            // axios.get('/api/company').then(response => {
-            //     this.setState({
-            //         data: response.data
-            //     })
-            //     console.log(this.state.data[0])
-            // }).catch(error => {
-            //     console.log(error);
-            // })
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'div',
-                { className: 'container' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'div',
-                    { className: 'row justify-content-center' },
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        'div',
-                        { className: 'col-md-8' },
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'div',
-                            { className: 'card' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                'div',
-                                { className: 'card-header' },
-                                'Dashboard'
-                            ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                'div',
-                                { className: 'card-body' },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'alert alert-success' }),
-                                'You are logged in!'
-                            )
-                        )
-                    )
-                )
-            );
-        }
-    }]);
-
-    return Home;
+				return Home;
 }(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
 
 /* harmony default export */ __webpack_exports__["a"] = (Home);
@@ -60585,8 +60559,8 @@ var Home = function (_Component) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_router__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_router_dom__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_router_dom__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_router__ = __webpack_require__(6);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -60603,15 +60577,42 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Navbar = function (_Component) {
     _inherits(Navbar, _Component);
 
-    function Navbar() {
+    function Navbar(props) {
         _classCallCheck(this, Navbar);
 
-        return _possibleConstructorReturn(this, (Navbar.__proto__ || Object.getPrototypeOf(Navbar)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (Navbar.__proto__ || Object.getPrototypeOf(Navbar)).call(this, props));
+
+        _this.state = {
+            auth: localStorage.getItem('token'),
+            redirect: false
+        };
+        _this.handleLogOutClick = _this.handleLogOutClick.bind(_this);
+        return _this;
     }
 
     _createClass(Navbar, [{
+        key: 'handleLogOutClick',
+        value: function handleLogOutClick(e) {
+            var _this2 = this;
+
+            e.preventDefault();
+
+            axios.post('api/user/logout', { token: localStorage.getItem('token') }).then(function (response) {
+                axios.defaults.headers.common["Authorization"];
+                localStorage.removeItem('token');
+                _this2.setState = {
+                    redirect: true
+                };
+            }).catch(function (error) {
+                console.log(error);
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
+            if (this.state.redirect) {
+                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_react_router__["a" /* Redirect */], { to: "/" });
+            }
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'nav',
                 { className: 'navbar navbar-inverse' },
@@ -60622,7 +60623,7 @@ var Navbar = function (_Component) {
                         'div',
                         { className: 'navbar-header' },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            __WEBPACK_IMPORTED_MODULE_3_react_router_dom__["b" /* Link */],
+                            __WEBPACK_IMPORTED_MODULE_2_react_router_dom__["b" /* Link */],
                             { className: 'navbar-brand', to: '/' },
                             'Home'
                         )
@@ -60634,7 +60635,7 @@ var Navbar = function (_Component) {
                             'li',
                             null,
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                __WEBPACK_IMPORTED_MODULE_3_react_router_dom__["b" /* Link */],
+                                __WEBPACK_IMPORTED_MODULE_2_react_router_dom__["b" /* Link */],
                                 { to: '/companies' },
                                 'Companies'
                             )
@@ -60643,7 +60644,7 @@ var Navbar = function (_Component) {
                             'li',
                             null,
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                __WEBPACK_IMPORTED_MODULE_3_react_router_dom__["b" /* Link */],
+                                __WEBPACK_IMPORTED_MODULE_2_react_router_dom__["b" /* Link */],
                                 { to: '/employees' },
                                 'Employees'
                             )
@@ -60657,7 +60658,7 @@ var Navbar = function (_Component) {
                             null,
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 'a',
-                                { href: '#' },
+                                { onClick: this.handleLogOutClick },
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('span', { className: 'glyphicon glyphicon-log-in' }),
                                 ' Log Out'
                             )
@@ -60702,8 +60703,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 
-//import { Redirect } from 'react-router-dom'
-//import { Route, Redirect } from 'react-router';
 
 var CompaniesCreate = function (_Component) {
     _inherits(CompaniesCreate, _Component);

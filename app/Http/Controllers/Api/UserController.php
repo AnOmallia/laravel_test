@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\AuthRequest;
+use App\Http\Controllers\Controller;
 use App\User;
 use JWTAuth;
 use JWTAuthException;
 
-class UserController extends Controller
-{
+class UserController extends Controller {
     public function login(AuthRequest $request)
     {
-        $user = \App\User::where('email', $request->email)->get()->first();
+        $user = User::where('email', $request->email)->get()->first();
 
         if ($user && \Hash::check($request->password, $user->password)){
             $token = null;
@@ -38,5 +38,13 @@ class UserController extends Controller
           $response = ['success'=>false, 'data'=>'Record doesnt exists'];
       
         return response()->json($response, 201);
+    }
+
+    public function logOut(Request $request) {
+    	$user = User::where('token', $request->token)->update(['token' => null]);
+    	if($user){
+    		$response = $user ? ['success'=>true, 'data'=>'You are successfully logged out'] : ['success'=>false, 'data'=>'Some error occured'];
+    		return response()->json($response );
+    	}
     }
 }

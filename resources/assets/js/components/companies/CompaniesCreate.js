@@ -4,8 +4,6 @@ import { Router, Route, Switch, Redirect } from 'react-router';
 import { HashRouter , Link } from 'react-router-dom';
 import CompaniesDelete from './CompaniesDelete';
 import DeleteModal from './../DeleteModal';
-//import { Redirect } from 'react-router-dom'
-//import { Route, Redirect } from 'react-router';
 
 export default class CompaniesCreate extends Component {
     constructor(props){

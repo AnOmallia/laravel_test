@@ -33,6 +33,7 @@ Route::group(['middleware' => ['jwt.auth']], function () {
 	Route::post('update/{id}', 'Api\CompaniesController@update');
 	Route::post('employee/update/{id}', 'Api\EmployeesController@update');
 	Route::get('getcompanies', 'Api\EmployeesController@getCompanies');
+	Route::post('user/logout', 'Api\UserController@logOut');
 });
 
-Route::post('user/login', 'UserController@login');
+Route::post('user/login', 'Api\UserController@login');

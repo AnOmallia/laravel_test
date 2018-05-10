@@ -12,7 +12,7 @@ import Employees from './employees/Employees';
 import EmployeesCreate from './employees/EmployeesCreate';
 
 export default class App extends Component {
-     constructor(props){
+    constructor(props){
         super(props);
         this.state = {
             token: '',
@@ -26,7 +26,7 @@ export default class App extends Component {
         let form = document.forms.namedItem("loginForm");
         let formData = new FormData(form);
         axios.post('/api/user/login', formData, {headers:{'Content-Type': 'multipart/form-data' }}).then(response => {
-            console.log(response);
+            axios.defaults.headers.common['Authorization'] = "Bearer " + response.data.data.token;
             this.setState({
                 token: response.data.data.token,
                 auth: true,

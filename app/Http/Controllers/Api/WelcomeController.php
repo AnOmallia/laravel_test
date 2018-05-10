@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Company;
-//use Illuminate\Support\Facades\Auth;
+use App\Models\Company;
 use Auth;
 
 class WelcomeController extends Controller

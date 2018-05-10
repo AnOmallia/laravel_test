@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Requests\EmployeesRequest;
 use App\Http\Controllers\Controller;
-use App\Employee;
-use App\Company;
+use App\Models\Employee;
+use App\Models\Company;
 use File;
 
 

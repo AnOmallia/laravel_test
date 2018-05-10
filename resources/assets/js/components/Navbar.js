@@ -1,12 +1,37 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, Switch } from 'react-router'
 import { HashRouter , Link } from 'react-router-dom';
+import { Router, Route, Switch, Redirect } from 'react-router';
 
 
 export default class Navbar extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            auth: localStorage.getItem('token'),
+            redirect: false,
+        };
+        this.handleLogOutClick = this.handleLogOutClick.bind(this);
+    }
+    handleLogOutClick(e) {
+        e.preventDefault();
+
+        axios.post('api/user/logout', {token: localStorage.getItem('token')}).then(response => {
+            axios.defaults.headers.common["Authorization"];
+            localStorage.removeItem('token');
+            this.setState = {
+            redirect: true
+        };
+
+        }).catch(error => {
+            console.log(error);
+        })
+    }
 
     render() {
+        if(this.state.redirect) {
+            return <Redirect to={"/"} />;
+        }
         return (
             <nav className="navbar navbar-inverse">
                 <div className="container-fluid">
@@ -18,7 +43,7 @@ export default class Navbar extends Component {
                         <li><Link to="/employees">Employees</Link></li>
                     </ul>
                     <ul className="nav navbar-nav navbar-right">
-                        <li><a href="#"><span className="glyphicon glyphicon-log-in"></span> Log Out</a></li>
+                        <li><a onClick={this.handleLogOutClick}><span className="glyphicon glyphicon-log-in"></span> Log Out</a></li>
                     </ul>
                 </div>
             </nav>
