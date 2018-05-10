@@ -8,7 +8,7 @@ export default class EmployeesDelete extends Component {
     }
 
     deleteCompany(id){
-		axios.delete(`/api/employee/${id}`).then(response => {
+		axios.delete(`/api/employees/${id}`).then(response => {
         }).catch(error => {
             console.log(error);
         })

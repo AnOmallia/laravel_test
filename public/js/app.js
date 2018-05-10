@@ -2109,7 +2109,7 @@ var CompaniesDelete = function (_Component) {
     _createClass(CompaniesDelete, [{
         key: 'deleteCompany',
         value: function deleteCompany(id) {
-            axios.delete('/api/company/' + id).then(function (response) {}).catch(function (error) {
+            axios.delete('/api/companies/' + id).then(function (response) {}).catch(function (error) {
                 console.log(error);
             });
         }
@@ -2152,7 +2152,7 @@ var EmployeesDelete = function (_Component) {
     _createClass(EmployeesDelete, [{
         key: 'deleteCompany',
         value: function deleteCompany(id) {
-            axios.delete('/api/employee/' + id).then(function (response) {}).catch(function (error) {
+            axios.delete('/api/employees/' + id).then(function (response) {}).catch(function (error) {
                 console.log(error);
             });
         }
@@ -16413,10 +16413,7 @@ var Companies = function (_Component) {
             var _this2 = this;
 
             var $this = this;
-            console.log(789, this.state.auth);
-            //axios.defaults.headers.common['Authorization'] = "Bearer " + response.data.data.token;
-            //axios.get('/api/company', '', {headers:{'Authorization': `Bearer ${this.state.auth}`}}).then(response => {
-            axios.get('/api/company').then(function (response) {
+            axios.get('/api/companies').then(function (response) {
                 _this2.setState({
                     data: response.data
                 });
@@ -60739,7 +60736,7 @@ var CompaniesCreate = function (_Component) {
         value: function getData(id) {
             var _this2 = this;
 
-            axios.get('/api/company/' + id).then(function (response) {
+            axios.get('/api/companies/' + id).then(function (response) {
                 _this2.setState({
                     id: response.data.id,
                     name: response.data.name,
@@ -60758,7 +60755,7 @@ var CompaniesCreate = function (_Component) {
 
             e.preventDefault();
             var action = "";
-            action = e.currentTarget.name == "create" ? '/api/company' : '/api/update/' + this.state.id;
+            action = e.currentTarget.name == "create" ? '/api/companies' : '/api/update/' + this.state.id;
             var form = document.forms.namedItem("compForm");
             var formData = new FormData(form);
 
@@ -60981,7 +60978,7 @@ var Employees = function (_Component) {
 
             var $this = this;
 
-            axios.get('api/employee').then(function (response) {
+            axios.get('api/employees').then(function (response) {
                 _this2.setState({
                     data: response.data
                 });
@@ -61214,7 +61211,7 @@ var EmployeesCreate = function (_Component) {
         value: function getData(id) {
             var _this3 = this;
 
-            axios.get('/api/employee/' + id).then(function (response) {
+            axios.get('/api/employees/' + id).then(function (response) {
                 _this3.setState({
                     id: response.data.id,
                     first_name: response.data.first_name,
@@ -61234,7 +61231,7 @@ var EmployeesCreate = function (_Component) {
 
             e.preventDefault();
             var action = "";
-            action = e.currentTarget.name == "create" ? '/api/employee' : 'api/employee/update/' + this.state.id;
+            action = e.currentTarget.name == "create" ? '/api/employees' : 'api/employees/update/' + this.state.id;
             var form = document.forms.namedItem("employeeForm");
             var formData = new FormData(form);
 

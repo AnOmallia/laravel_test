@@ -13,25 +13,19 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-	Route::get('welcome', 'Api\WelcomeController@index');
-});
-
-
-
-
-
-
 // Route::middleware('auth:api')->get('/user', function (Request $request) {
 //     return $request->user();
+// 	Route::get('welcome', 'Api\WelcomeController@index');
 // });
+
+
+
 Route::group(['middleware' => ['jwt.auth']], function () {
   
-	Route::resource('company', 'Api\CompaniesController');
-	Route::resource('employee', 'Api\EmployeesController');
+	Route::resource('companies', 'Api\CompaniesController');
+	Route::resource('employees', 'Api\EmployeesController');
 	Route::post('update/{id}', 'Api\CompaniesController@update');
-	Route::post('employee/update/{id}', 'Api\EmployeesController@update');
+	Route::post('employees/update/{id}', 'Api\EmployeesController@update');
 	Route::get('getcompanies', 'Api\EmployeesController@getCompanies');
 	Route::post('user/logout', 'Api\UserController@logOut');
 });

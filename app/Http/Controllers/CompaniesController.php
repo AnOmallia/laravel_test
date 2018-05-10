@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\CompaniesRequest;
+use App\Http\Requests\CompanyRequest;
 use App\Models\Company;
 use File;
 
@@ -40,28 +40,11 @@ class CompaniesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CompaniesRequest $request)
+    public function store(CompanyRequest $request)
     {
-        $input = $request->all();
-        unset($input['_token']);
-        if($request->logo){
-            $path = '../storage/app/public/logos';
-            if (!file_exists($path)) {
-                File::makeDirectory($path);
-            }
-
-            $imageName = time().'.'.$request->logo->getClientOriginalExtension();
-            $success = $request->logo->move($path, $imageName);
-            if ($success) {
-                $input['logo'] = $imageName;
-                $company = Company::create($input);
-                return redirect('company/' . $company->id);
-            }
-            return redirect()->back();
-        } else {
-            $company = Company::create($input);
-            return redirect('company/' . $company->id);
-        }
+        $input = $request->inputs();
+        $company = Company::create($input);
+        return redirect('companies/' . $company->id);
 
     }
 
@@ -96,33 +79,15 @@ class CompaniesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CompaniesRequest $request, $id)
+    public function update(CompanyRequest $request, $id)
     {
-        $input = $request->all();
-        unset($input['_method']);
-        unset($input['_token']);
+        $input = $request->inputs();
         $company = Company::whereId($id)->first();
         if ($request->logo) {
-            $path = '../storage/app/public/logos';
-            if (!file_exists($path)) {
-                File::makeDirectory($path);
-            }
-
-            if($company->logo) {
-                File::delete($path."/".$company->logo);
-            }
-            $imageName = time().'.'.$request->logo->getClientOriginalExtension();
-            $success = $request->logo->move($path, $imageName);
-            if ($success) {
-                $input['logo'] = $imageName;
-                $company = Company::find($id)->update($input);
-                return redirect('company/' . $id);
-            }
-            return redirect()->back();
-        } else {
-            $company = Company::find($id)->update($input);
-            return redirect('company/' . $id);
+            $path = storage_path('app/public/logos');
         }
+        $company->update($input);
+        return redirect('companies/' . $id);
     }
 
     /**
@@ -135,10 +100,10 @@ class CompaniesController extends Controller
     {
         $company = Company::find($id);
         if ($company->logo) {
-            $path = '../storage/app/public/logos';
+            $path = storage_path('app/public/logos');
             File::delete($path."/".$company->logo);
         }
         $company->delete();
-        return redirect('company');
+        return redirect('companies');
     }
 }

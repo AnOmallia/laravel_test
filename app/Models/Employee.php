@@ -19,11 +19,12 @@ class Employee extends Model
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'phone', 'company',
+        'first_name', 'last_name', 'email', 'phone', 'company-id',
     ];
 
-    public function companies()
+    public function company()
 	{
-	    return $this->belongsTo('App\Models\Company', 'company');
+        // return $this->belongsTo('App\Models\Company', 'company');
+	    return $this->belongsTo('App\Models\Company');
 	}
 }

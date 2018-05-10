@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\AuthRequest;
+use App\Http\Requests\LoginRequest;
 use App\Http\Controllers\Controller;
 use App\User;
 use JWTAuth;
 use JWTAuthException;
 
 class UserController extends Controller {
-    public function login(AuthRequest $request)
+    public function login(LoginRequest $request)
     {
         $user = User::where('email', $request->email)->get()->first();
 

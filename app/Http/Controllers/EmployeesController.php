@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\EmployeesRequest;
+use App\Http\Requests\EmployeeRequest;
 use App\Models\Employee;
 use App\Models\Company;
 
@@ -20,7 +20,7 @@ class EmployeesController extends Controller
      */
     public function index()
     {
-        $employees = Employee::with('companies')->paginate(10);
+        $employees = Employee::with('company')->paginate(10);
         return view('employees.index', ['employees' => $employees]);
     }
 
@@ -43,7 +43,7 @@ class EmployeesController extends Controller
      * @return \Illuminate\Http\Response
      */
     
-    public function store(EmployeesRequest $request)
+    public function store(EmployeeRequest $request)
     {
         $input = $request->all();
         unset($input['_token']);
@@ -61,7 +61,7 @@ class EmployeesController extends Controller
      */
     public function show($id)
     {
-        $employee = Employee::with('companies')->whereId($id)->first();
+        $employee = Employee::with('company')->whereId($id)->first();
         return view('employees.show', ['employee' => $employee]);
     }
 
@@ -73,7 +73,7 @@ class EmployeesController extends Controller
      */
     public function edit($id)
     {
-        $employee = Employee::with('companies')->whereId($id)->first();
+        $employee = Employee::with('company')->whereId($id)->first();
         $companies = Company::select('name', 'id')->get()
             ->pluck('name', 'id')->toArray();
         return view('employees.edit', [
@@ -88,7 +88,7 @@ class EmployeesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(EmployeesRequest $request, $id)
+    public function update(EmployeeRequest $request, $id)
     {
         $input = $request->all();
         unset($input['_method']);

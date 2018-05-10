@@ -28,10 +28,10 @@
 					</div>
 					<div class="form-group">
 						<label for="company">Company name:</label>
-						{!! Form::text('company', $employee->companies->name, ['class' => 'form-control', 'id' => 'company']) !!}
+						{!! Form::text('company', $employee->company->name, ['class' => 'form-control', 'id' => 'company']) !!}
 					</div>
-					<a class="btn btn-primary" href="/employee/{{$employee->id}}/edit">Edit</a>
-					{!! Form::open(['url' => '/employee/'.$employee->id, 'method' => 'delete']) !!}
+					<a class="btn btn-primary" href="/employees/{{$employee->id}}/edit">Edit</a>
+					{!! Form::open(['url' => '/employees/'.$employee->id, 'method' => 'delete']) !!}
 					<button type="submit" class="btn btn-danger">Delete</button>
 					{!! Form::close() !!}
             	</div>

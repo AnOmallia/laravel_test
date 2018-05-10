@@ -53,7 +53,7 @@ export default class EmployeesCreate extends Component {
     }
 
     getData(id){
-        axios.get(`/api/employee/${id}`).then(response => {
+        axios.get(`/api/employees/${id}`).then(response => {
             this.setState({
                 id: response.data.id,
                 first_name: response.data.first_name,
@@ -70,7 +70,7 @@ export default class EmployeesCreate extends Component {
     handleClick(e) {
         e.preventDefault();
         let action = "";
-        action = e.currentTarget.name == "create" ? '/api/employee' : `api/employee/update/${this.state.id}`
+        action = e.currentTarget.name == "create" ? '/api/employees' : `api/employees/update/${this.state.id}`
 	    let form = document.forms.namedItem("employeeForm");
 		let formData = new FormData(form);
 		

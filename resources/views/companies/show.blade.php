@@ -29,8 +29,8 @@
 						<img src="{{ asset('storage/logos/'.$company->logo)  }}" alt="logo" width="100px" height="100px">
 					@endif
 					</div>
-					<a class="btn btn-primary" href="/company/{{$company->id}}/edit">Edit</a>
-					{!! Form::open(['url' => '/company/'.$company->id, 'method' => 'delete']) !!}
+					<a class="btn btn-primary" href="/companies/{{$company->id}}/edit">Edit</a>
+					{!! Form::open(['url' => '/companies/'.$company->id, 'method' => 'delete']) !!}
 					<button type="submit" class="btn btn-danger">Delete</button>
 					{!! Form::close() !!}
             	</div>

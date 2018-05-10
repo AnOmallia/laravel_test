@@ -30,7 +30,7 @@ export default class CompaniesCreate extends Component {
     }
 
     getData(id){
-        axios.get(`/api/company/${id}`).then(response => {
+        axios.get(`/api/companies/${id}`).then(response => {
             this.setState({
                 id: response.data.id,
                 name: response.data.name,
@@ -46,7 +46,7 @@ export default class CompaniesCreate extends Component {
     handleClick(e) {
         e.preventDefault();
         let action = "";
-        action = e.currentTarget.name == "create" ? '/api/company' : `/api/update/${this.state.id}`
+        action = e.currentTarget.name == "create" ? '/api/companies' : `/api/update/${this.state.id}`
 	    let form = document.forms.namedItem("compForm");
 		let formData = new FormData(form);
 		

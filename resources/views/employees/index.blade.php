@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container">
-<a type="button" class="btn btn-info" href="/employee/create"><i class="fa fa-plus" aria-hidden="true"></i> Add Employee</a>
+<a type="button" class="btn btn-info" href="/employees/create"><i class="fa fa-plus" aria-hidden="true"></i> Add Employee</a>
 <div class="table-responsive">
   	<table class="table table-bordered table-hover table-striped">
 	    <thead>
@@ -23,13 +23,13 @@
 		        <td>{{ $employee->last_name }}</td>
 		        <td>{{ $employee->email }}</td>
 		        <td>{{ $employee->phone }}</td>
-		        <td>{{ $employee->companies->name }}</td>
+		        <td>{{ $employee->company->name }}</td>
 		        <td>
 		        <div class="btn-group">
-				  	<a type="button" class="btn btn-info" href="/employee/{{$employee->id}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
-				  	<a type="button" class="btn btn-primary" href="/employee/{{$employee->id}}/edit"><i class="fa fa-edit" aria-hidden="true"></i></a>
+				  	<a type="button" class="btn btn-info" href="/employees/{{$employee->id}}"><i class="fa fa-eye" aria-hidden="true"></i></a>
+				  	<a type="button" class="btn btn-primary" href="/employees/{{$employee->id}}/edit"><i class="fa fa-edit" aria-hidden="true"></i></a>
 				  	
-				  	{!! Form::open(['url' => '/employee/'.$employee->id, 'method' => 'delete']) !!}
+				  	{!! Form::open(['url' => '/employees/'.$employee->id, 'method' => 'delete']) !!}
 						<button type="submit" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
 					{!! Form::close() !!}
 				</div>

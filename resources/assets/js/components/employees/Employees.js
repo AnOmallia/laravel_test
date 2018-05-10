@@ -17,7 +17,7 @@ export default class Employees extends Component {
     componentWillMount(){
         let $this = this;
 
-        axios.get('api/employee').then(response => {
+        axios.get('api/employees').then(response => {
             this.setState({
                 data: response.data
             })

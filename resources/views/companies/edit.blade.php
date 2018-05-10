@@ -8,7 +8,7 @@
             <div class="card">
                 <div class="card-header">Add Companie</div>
                 <div class="card-body">
-	                {!! Form::open(['url' => '/company/'. $company->id, 'method' => 'put', 'files' => true]) !!}
+	                {!! Form::open(['url' => '/companies/'. $company->id, 'method' => 'put', 'files' => true]) !!}
 	                	{{ csrf_field() }}
 	                	<div class="form-group">
 							<label for="firstName">Company name:</label>
@@ -26,7 +26,7 @@
 							<label for="logo">Company logo:</label>
 							{!! Form::file('logo', null, ['class' => 'form-control', 'id' => 'logo']) !!}
 						</div>
-						<button type="submit" class="btn btn-default">Save</button>
+						<button type="submit" class="btn btn-success">Save</button>
 					{!! Form::close() !!}
             	</div>
             </div>
