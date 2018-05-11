@@ -35,18 +35,6 @@ class CompanyRequest extends FormRequest
     public function inputs()
     {
         $inputs = $this->_method ? $this->except(['_token', '_method']) :$this->except(['_token']);
-        if($this->hasFile('logo')){
-            $path = storage_path('app/public/logos');
-            if (!file_exists($path)) {
-                File::makeDirectory($path);
-            }
-
-            $imageName = time().'.'.$inputs['logo']->getClientOriginalExtension();
-            //dd($imageName);
-            $inputs['logo']->move($path, $imageName);
-            $inputs['logo'] = $imageName;
-        }
         return $inputs;
     }
 }
-//http://laraveltest.loc/storage/logos//tmp/phpjKSoD6

@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\EmployeeRequest;
-use App\Models\Employee;
-use App\Models\Company;
+use App\Http\Controllers\EmployeesService;
+use App\Http\Controllers\CompaniesService;
 
 class EmployeesController extends Controller
 {
@@ -18,9 +18,9 @@ class EmployeesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(EmployeesService $employeesService)
     {
-        $employees = Employee::with('company')->paginate(10);
+        $employees = $employeesService->getAllEmployees();
         return view('employees.index', ['employees' => $employees]);
     }
 
@@ -29,10 +29,9 @@ class EmployeesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(CompaniesService $companiesService)
     {
-        $companies = Company::select('name', 'id')->get()->pluck('name', 'id')
-            ->toArray();
+        $companies = $companiesService->getAllCompaniesNamesArray();
         return view('employees.create', ['companies' => $companies]);
     }
 
@@ -43,14 +42,11 @@ class EmployeesController extends Controller
      * @return \Illuminate\Http\Response
      */
     
-    public function store(EmployeeRequest $request)
+    public function store(EmployeeRequest $request, EmployeesService $employeesService)
     {
-        $input = $request->all();
-        unset($input['_token']);
-        $employee = Employee::create($input);
-        if($employee){
-            return redirect('employee/' . $employee->id);
-        }
+        $input = $request->inputs();
+        $employee = $employeesService->createEmployee($input);
+        return redirect('employees/' . $employee->id);
     }
 
     /**
@@ -59,9 +55,9 @@ class EmployeesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, EmployeesService $employeesService)
     {
-        $employee = Employee::with('company')->whereId($id)->first();
+        $employee = $employeesService->getEmployee($id);
         return view('employees.show', ['employee' => $employee]);
     }
 
@@ -71,11 +67,10 @@ class EmployeesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, EmployeesService $employeesService, CompaniesService $companiesService)
     {
-        $employee = Employee::with('company')->whereId($id)->first();
-        $companies = Company::select('name', 'id')->get()
-            ->pluck('name', 'id')->toArray();
+        $employee = $employeesService->getEmployee($id);
+        $companies = $companiesService->getAllCompaniesNamesArray();
         return view('employees.edit', [
             'employee' => $employee, 'companies' => $companies
             ]);
@@ -88,15 +83,11 @@ class EmployeesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(EmployeeRequest $request, $id)
+    public function update(EmployeeRequest $request, $id, EmployeesService $employeesService)
     {
-        $input = $request->all();
-        unset($input['_method']);
-        unset($input['_token']);
-        $employee = Employee::whereId($id)->update($input);
-        if ($employee) {
-            return redirect('employee/' . $id);
-        }
+        $input = $request->inputs();
+        $companies = $employeesService->getAllCompaniesNamesArray();
+        return redirect('employees/' . $id);
     }
 
     /**
@@ -105,11 +96,9 @@ class EmployeesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, EmployeesService $employeesService)
     {
-        $employee = Employee::find($id)->delete();
-        if ($employee) {
-            return redirect('employee');
-        }
+        $employee = $employeesService->updateEmployee($id);
+        return redirect('employees');
     }
 }

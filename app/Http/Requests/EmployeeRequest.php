@@ -26,7 +26,17 @@ class EmployeeRequest extends FormRequest
         return [
             'first_name' => 'required',
             'last_name' => 'required',
-            'company' => 'required',
+            'company_id' => 'required',
         ];
+    }
+    /**
+     * Made input fields changes.
+     *
+     * @return array
+     */
+    public function inputs()
+    {
+        $inputs = $this->_method ? $this->except(['_token', '_method']) :$this->except(['_token']);
+        return $inputs;
     }
 }

@@ -9,7 +9,7 @@
                 <div class="card-header">Add Companie</div>
 
                 <div class="card-body">
-	                {!! Form::open(['url' => '/employee', 'method' => 'post']) !!}
+	                {!! Form::open(['url' => '/employees', 'method' => 'post']) !!}
 	                	{{ csrf_field() }}
 	                	<div class="form-group">
 							<label for="firstName">First name:</label>
@@ -29,9 +29,9 @@
 						</div>
 						<div class="form-group">
 							<label for="company">Company name:</label>
-							{!! Form::select('company', $companies, null, ['class' => 'form-control', 'id' => 'company']) !!}
+							{!! Form::select('company_id', $companies, null, ['class' => 'form-control', 'id' => 'company']) !!}
 						</div>
-						<button type="submit" class="btn btn-default">Save</button>
+						<button type="submit" class="btn btn-success">Save</button>
 					{!! Form::close() !!}
                 </div>
             </div>

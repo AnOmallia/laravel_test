@@ -24,8 +24,8 @@ Route::group(['middleware' => ['jwt.auth']], function () {
   
 	Route::resource('companies', 'Api\CompaniesController');
 	Route::resource('employees', 'Api\EmployeesController');
-	Route::post('update/{id}', 'Api\CompaniesController@update');
-	Route::post('employees/update/{id}', 'Api\EmployeesController@update');
+	// Route::post('update/{id}', 'Api\CompaniesController@update');
+	// Route::post('employees/update/{id}', 'Api\EmployeesController@update');
 	Route::get('getcompanies', 'Api\EmployeesController@getCompanies');
 	Route::post('user/logout', 'Api\UserController@logOut');
 });
