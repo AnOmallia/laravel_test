@@ -11,7 +11,6 @@ class CompaniesController extends Controller
     public function __construct()
     {
         $this->middleware('admin');
-        $this->model = "Company";
     }
     /**
      * Display a listing of the resource.
@@ -43,8 +42,8 @@ class CompaniesController extends Controller
     public function store(CompanyRequest $request, CompaniesService $companiesService)
     {
         $inputs = $request->inputs();
-        $company_id = $companiesService->createCompany($inputs, $request->logo);
-        return redirect('companies/' . $company_id);
+        $company = $companiesService->createCompany($inputs, $request->logo);
+        return redirect('companies/' . $company->id);
     }
 
     /**
@@ -55,7 +54,7 @@ class CompaniesController extends Controller
      */
     public function show($id, CompaniesService $companiesService)
     {
-        $company= $companiesService->getCompany($id);
+        $company = $companiesService->getCompany($id);
         return view('companies.show', ['company' => $company]);
     }
 
@@ -67,7 +66,7 @@ class CompaniesController extends Controller
      */
     public function edit($id, CompaniesService $companiesService)
     {
-        $company= $companiesService->getCompany($id);
+        $company = $companiesService->getCompany($id);
         return view('companies.edit', ['company' => $company]);
     }
 

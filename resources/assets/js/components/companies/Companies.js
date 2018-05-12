@@ -19,7 +19,7 @@ export default class Companies extends Component {
         let $this = this;
         axios.get('/api/companies').then(response => {
             this.setState({
-                data: response.data
+                data: response.data.data
             })
         }).catch(error => {
             console.log(error);

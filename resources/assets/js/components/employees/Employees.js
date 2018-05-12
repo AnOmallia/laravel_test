@@ -19,7 +19,7 @@ export default class Employees extends Component {
 
         axios.get('api/employees').then(response => {
             this.setState({
-                data: response.data
+                data: response.data.data
             })
         }).catch(error => {
             console.log(error);
@@ -56,7 +56,7 @@ export default class Employees extends Component {
                                 <td>{employee.last_name}</td>
                                 <td>{employee.email}</td>
                                 <td>{employee.phone}</td>
-                                <td>{employee.companies.name}</td>
+                                <td>{employee.company.name}</td>
                                 <td>
                                     <div className="btn-group">
                                         <Link className="btn btn-info" to={`/employees/show/${employee.id}`} ><i className="fa fa-eye" aria-hidden="true"></i></Link>

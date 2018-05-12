@@ -30,7 +30,7 @@ export default class EmployeesCreate extends Component {
         if(typeof this.props.match.params.id !== "undefined"){
             this.getData(this.props.match.params.id);
         }
-        console.log(this.props.match.params.id);
+
         if(typeof this.props.match.params.employee !== "undefined"){
             this.getData(this.props.match.params.employee);
             this.getCompanyData();
@@ -60,7 +60,7 @@ export default class EmployeesCreate extends Component {
                 last_name: response.data.last_name,
                 email: response.data.email,
                 phone: response.data.phone,
-                company: response.data.company,
+                company: response.data.company.name,
             })
         }).catch(error => {
             console.log(error);
@@ -70,9 +70,10 @@ export default class EmployeesCreate extends Component {
     handleClick(e) {
         e.preventDefault();
         let action = "";
-        action = e.currentTarget.name == "create" ? '/api/employees' : `api/employees/update/${this.state.id}`
+        action = e.currentTarget.name == "create" ? '/api/employees' : `api/employees/${this.state.id}`
 	    let form = document.forms.namedItem("employeeForm");
 		let formData = new FormData(form);
+        e.currentTarget.name == "edit" ? formData.append('_method', 'PUT') : null;
 		
 		axios.post(action, formData, {headers:{'Content-Type': 'multipart/form-data' }}).then(response => {
             this.setState({
@@ -133,7 +134,7 @@ export default class EmployeesCreate extends Component {
 
         let select;
         select = (window.location.href.split("/").slice(-1).pop() == 'create' || window.location.href.split("/").indexOf("edit") != -1)? (
-                    <select name="company" id="company"  className="form-control" value={this.state.company} onChange={this.handleValueChange} >
+                    <select name="company_id" id="company"  className="form-control" value={this.state.company_id} onChange={this.handleValueChange} >
                         {this.state.companies.map((company, ind) => (
                             <option  key={ind} value={company.id}>{ company.name }</option>
                             )

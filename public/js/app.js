@@ -16415,7 +16415,7 @@ var Companies = function (_Component) {
             var $this = this;
             axios.get('/api/companies').then(function (response) {
                 _this2.setState({
-                    data: response.data
+                    data: response.data.data
                 });
             }).catch(function (error) {
                 console.log(error);
@@ -60719,7 +60719,7 @@ var CompaniesCreate = function (_Component) {
             delId: ""
         };
         _this.handleClick = _this.handleClick.bind(_this);
-        _this.handleEditClick = _this.handleEditClick.bind(_this);
+        // this.handleEditClick = this.handleEditClick.bind(this);
         _this.handleValueChange = _this.handleValueChange.bind(_this);
         _this.handleDeleteClick = _this.handleDeleteClick.bind(_this);
         if (typeof _this.props.match.params.id !== "undefined") {
@@ -60755,9 +60755,10 @@ var CompaniesCreate = function (_Component) {
 
             e.preventDefault();
             var action = "";
-            action = e.currentTarget.name == "create" ? '/api/companies' : '/api/update/' + this.state.id;
+            action = e.currentTarget.name == "create" ? '/api/companies' : '/api/companies/' + this.state.id;
             var form = document.forms.namedItem("compForm");
             var formData = new FormData(form);
+            e.currentTarget.name == "edit" ? formData.append('_method', 'PUT') : null;
 
             axios.post(action, formData, { headers: { 'Content-Type': 'multipart/form-data' } }).then(function (response) {
                 _this3.setState({
@@ -60774,27 +60775,25 @@ var CompaniesCreate = function (_Component) {
             var key = e.currentTarget.name;
             this.setState(_defineProperty({}, key, e.target.value));
         }
-    }, {
-        key: 'handleEditClick',
-        value: function handleEditClick(e) {
-            var _this4 = this;
 
-            e.preventDefault();
-            var form = document.forms.namedItem("compForm");
-            var formData = new FormData(form);
-            formData.append('_method', 'PUT');
-            axios.post('/api/update/' + this.state.id, formData, { headers: { 'Content-Type': 'multipart/form-data' } }).then(function (response) {
-                _this4.setState({
-                    id: response.data,
-                    name: response.data.name,
-                    email: response.data.email,
-                    website: response.data.website,
-                    logo: response.data.logo
-                });
-            }).catch(function (error) {
-                console.log(error);
-            });
-        }
+        // handleEditClick(e) {
+        //     e.preventDefault();
+        //     let form = document.forms.namedItem("compForm");
+        // 	let formData = new FormData(form);
+        //        formData.append('_method', 'PUT');
+        // 	axios.post(`/api/update/${this.state.id}`, formData, {headers:{'Content-Type': 'multipart/form-data' }}).then(response => {
+        //            this.setState({
+        //                id: response.data,
+        //                name: response.data.name,
+        //                email: response.data.email,
+        //                website: response.data.website,
+        //                logo: response.data.logo,
+        //            })
+        //        }).catch(error => {
+        //            console.log(error);
+        //        })
+        // }
+
     }, {
         key: 'handleDeleteClick',
         value: function handleDeleteClick(e) {
@@ -60980,7 +60979,7 @@ var Employees = function (_Component) {
 
             axios.get('api/employees').then(function (response) {
                 _this2.setState({
-                    data: response.data
+                    data: response.data.data
                 });
             }).catch(function (error) {
                 console.log(error);
@@ -61081,7 +61080,7 @@ var Employees = function (_Component) {
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'td',
                                         null,
-                                        employee.companies.name
+                                        employee.company.name
                                     ),
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'td',
@@ -61180,7 +61179,7 @@ var EmployeesCreate = function (_Component) {
         if (typeof _this.props.match.params.id !== "undefined") {
             _this.getData(_this.props.match.params.id);
         }
-        console.log(_this.props.match.params.id);
+
         if (typeof _this.props.match.params.employee !== "undefined") {
             _this.getData(_this.props.match.params.employee);
             _this.getCompanyData();
@@ -61218,7 +61217,7 @@ var EmployeesCreate = function (_Component) {
                     last_name: response.data.last_name,
                     email: response.data.email,
                     phone: response.data.phone,
-                    company: response.data.company
+                    company: response.data.company.name
                 });
             }).catch(function (error) {
                 console.log(error);
@@ -61231,9 +61230,10 @@ var EmployeesCreate = function (_Component) {
 
             e.preventDefault();
             var action = "";
-            action = e.currentTarget.name == "create" ? '/api/employees' : 'api/employees/update/' + this.state.id;
+            action = e.currentTarget.name == "create" ? '/api/employees' : 'api/employees/' + this.state.id;
             var form = document.forms.namedItem("employeeForm");
             var formData = new FormData(form);
+            e.currentTarget.name == "edit" ? formData.append('_method', 'PUT') : null;
 
             axios.post(action, formData, { headers: { 'Content-Type': 'multipart/form-data' } }).then(function (response) {
                 _this4.setState({
@@ -61327,7 +61327,7 @@ var EmployeesCreate = function (_Component) {
             var select = void 0;
             select = window.location.href.split("/").slice(-1).pop() == 'create' || window.location.href.split("/").indexOf("edit") != -1 ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'select',
-                { name: 'company', id: 'company', className: 'form-control', value: this.state.company, onChange: this.handleValueChange },
+                { name: 'company_id', id: 'company', className: 'form-control', value: this.state.company_id, onChange: this.handleValueChange },
                 this.state.companies.map(function (company, ind) {
                     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'option',

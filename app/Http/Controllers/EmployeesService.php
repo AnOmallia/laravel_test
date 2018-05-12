@@ -9,16 +9,15 @@ class EmployeesService
 {
 
     public function getAllEmployees(){
-        return Employee::paginate(10);
+        return Employee::with('company')->paginate(10);
     }
 
     public function createEmployee($inputs){
         return Employee::create($inputs);
     }
 
-    public function getEmployee($id)
-    {
-        return Employee::whereId($id)->first();
+    public function getEmployee($id){
+        return Employee::with('company')->whereId($id)->first();
     }
 
     public function updateEmployee($id, $inputs){

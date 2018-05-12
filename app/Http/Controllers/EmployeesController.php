@@ -71,9 +71,7 @@ class EmployeesController extends Controller
     {
         $employee = $employeesService->getEmployee($id);
         $companies = $companiesService->getAllCompaniesNamesArray();
-        return view('employees.edit', [
-            'employee' => $employee, 'companies' => $companies
-            ]);
+        return view('employees.edit', ['employee' => $employee, 'companies' => $companies]);
     }
 
     /**
@@ -85,8 +83,8 @@ class EmployeesController extends Controller
      */
     public function update(EmployeeRequest $request, $id, EmployeesService $employeesService)
     {
-        $input = $request->inputs();
-        $companies = $employeesService->getAllCompaniesNamesArray();
+        $inputs = $request->inputs();
+        $companies = $employeesService->updateEmployee($id, $inputs);
         return redirect('employees/' . $id);
     }
 
@@ -98,7 +96,7 @@ class EmployeesController extends Controller
      */
     public function destroy($id, EmployeesService $employeesService)
     {
-        $employee = $employeesService->updateEmployee($id);
+        $employee = $employeesService->removeEmployee($id);
         return redirect('employees');
     }
 }

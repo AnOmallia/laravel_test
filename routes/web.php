@@ -24,3 +24,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 	Route::resource('companies', 'CompaniesController');
 	Route::resource('employees', 'EmployeesController');
 });
+
+Route::get('app', function () {
+    return view('app');
+});

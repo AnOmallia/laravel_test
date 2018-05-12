@@ -50,8 +50,7 @@ class CompaniesService
     }
 
     public function getAllCompaniesNamesArray(){
-        return Company::select('name', 'id')->get()
-            ->pluck('name', 'id')->toArray();
+        return Company::select('name', 'id')->get();
     }
 
 }

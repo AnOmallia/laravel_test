@@ -29,7 +29,7 @@
 						</div>
 						<div class="form-group">
 							<label for="company">Company name:</label>
-							{!! Form::select('company', $companies, $employee->company, ['class' => 'form-control', 'id' => 'company']) !!}
+							{!! Form::select('company_id', $companies, $employee->company, ['class' => 'form-control', 'id' => 'company']) !!}
 						</div>
 						{{-- <a class="btn btn-primary" href="/employees/{{$employee->id}}/edit">Edit</a> --}}
 						<button type="submit" class="btn btn-success">Save</button>

@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\EmployeesRequest;
+use App\Http\Requests\EmployeeRequest;
 use App\Http\Controllers\Controller;
-use App\Models\Employee;
-use App\Models\Company;
-use File;
+use App\Http\Controllers\EmployeesService;
+use App\Http\Controllers\CompaniesService;
 
 
 class EmployeesController extends Controller
@@ -17,9 +16,9 @@ class EmployeesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(EmployeesService $employeesService)
     {
-        $employees = Employee::with('companies')->get();
+        $employees = $employeesService->getAllEmployees();
         return response()->json($employees);
     }
 
@@ -29,15 +28,11 @@ class EmployeesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(EmployeesRequest $request)
+    public function store(EmployeeRequest $request, EmployeesService $employeesService)
     {
-        $input = $request->all();
-        unset($input['_token']);
-        $employee = Employee::create($input);
-        if($employee){
-            return response()->json($employee->id);
-        }
-        return response()->json($employee->id);
+        $input = $request->inputs();
+        $employee = $employeesService->createEmployee($input);
+        return response()->json($employee, 201);
     }
 
     /**
@@ -46,9 +41,10 @@ class EmployeesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, EmployeesService $employeesService, CompaniesService $companiesService)
     {
-        $employee = Employee::with('companies')->whereId($id)->first();
+        $employee = $employeesService->getEmployee($id);
+        $companies = $companiesService->getAllCompaniesNamesArray();
         return response()->json($employee);
     }
 
@@ -59,15 +55,11 @@ class EmployeesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(EmployeeRequest $request, $id, EmployeesService $employeesService)
     {
-        $input = $request->all();
-        unset($input['_method']);
-        unset($input['_token']);
-        $employee = Employee::whereId($id)->update($input);
-        if ($employee) {
-            return response()->json($employee);
-        }
+        $inputs = $request->inputs();
+        $companies = $employeesService->updateEmployee($id, $inputs);
+        return response()->json(null, 204);
     }
 
     /**
@@ -76,15 +68,15 @@ class EmployeesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, EmployeesService $employeesService)
     {
-        $employee = Employee::whereId($id)->delete();
-        return response()->json($id);
+        $employee = $employeesService->removeEmployee($id);
+        return response()->json(null, 204);
     }
 
-    public function getCompanies()
+    public function getCompanies(CompaniesService $companiesService)
     {
-        $companies = Company::select("name", "id")->get();
+        $companies = $companiesService->getAllCompaniesNamesArray();
         return response()->json($companies);
     }
 }

@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\CompaniesRequest;
+use App\Http\Requests\CompanyRequest;
+use App\Http\Controllers\CompaniesService;
 use App\Http\Controllers\Controller;
-use App\Models\Company;
-use File;
 
 
 class CompaniesController extends Controller
@@ -16,9 +15,9 @@ class CompaniesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(CompaniesService $companiesService)
     {
-        $companies = Company::all();
+        $companies = $companiesService->getAllCompanies();
         return response()->json($companies);
     }
 
@@ -28,35 +27,11 @@ class CompaniesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CompaniesRequest $request)
+    public function store(CompanyRequest $request, CompaniesService $companiesService)
     {
-        $input = $request->all();
-        unset($input['_token']);
-
-        if($request->logo){
-
-            $path = '../storage/app/public/logos';
-
-            if (!file_exists($path)) {
-                File::makeDirectory($path);
-            }
-
-            $imageName = time().'.'.$request->logo->getClientOriginalExtension();
-            $success = $request->logo->move($path, $imageName);
-
-            if ($success) {
-                $input['logo'] = $imageName;
-                $company = Company::create($input);
-                return response()->json($company->id);
-            }
-
-            return response()->json(0);
-
-        } else {
-
-            $company = Company::create($input);
-            return response()->json($company->id);
-        }
+        $inputs = $request->inputs();
+        $company = $companiesService->createCompany($inputs, $request->logo);
+        return response()->json($company, 201);
     }
 
     /**
@@ -65,9 +40,9 @@ class CompaniesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, CompaniesService $companiesService)
     {
-        $company = Company::whereId($id)->get()->first();
+        $company = $companiesService->getCompany($id);
         return response()->json($company);
     }
 
@@ -78,43 +53,11 @@ class CompaniesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CompaniesRequest $request, $id)
+    public function update(CompanyRequest $request, $id, CompaniesService $companiesService)
     {
-
-        $input = $request->all();
-        unset($input['_method']);
-        unset($input['_token']);
-        $company = Company::whereId($id)->first();
-
-        if ($request->logo) {
-
-            $path = '../storage/app/public/logos';
-
-            if (!file_exists($path)) {
-                File::makeDirectory($path);
-            }
-
-            if($company->logo) {
-                File::delete($path."/".$company->logo);
-            }
-
-            $imageName = time().'.'.$request->logo->getClientOriginalExtension();
-            $success = $request->logo->move($path, $imageName);
-            
-            if ($success) {
-                $input['logo'] = $imageName;
-                $company = Company::find($id)->update($input);
-                return response()->json($company);
-            }
-
-            return redirect()->back();
-
-        } else {
-
-            $company = Company::find($id)->update($input);
-            return response()->json($company);
-
-        }
+        $inputs = $request->inputs();
+        $company = $companiesService->updateCompany($id, $inputs, $request->logo);
+        return response()->json(null, 204);
     }
 
     /**
@@ -123,9 +66,9 @@ class CompaniesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, CompaniesService $companiesService)
     {
-        $company = Company::whereId($id)->delete();
-        return response()->json($id);
+        $company = $companiesService->removeCompany($id);
+        return response()->json(null, 204);
     }
 }
