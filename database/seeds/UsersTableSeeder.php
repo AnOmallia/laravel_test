@@ -12,11 +12,13 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
-            'name' => str_random(10),
-            'email' => 'admin@admin.com',
-            'password' => bcrypt('password'),
-            'is_admin' => 1,
-        ]);
+        if(!DB::table('users')->where('email', 'admin@admin.com')->exists()){
+            DB::table('users')->insert([
+                'name' => str_random(10),
+                'email' => 'admin@admin.com',
+                'password' => bcrypt('password'),
+                'is_admin' => 1,
+            ]);
+        }
     }
 }

@@ -26,7 +26,9 @@ class ChangeCompanyToCompanyIdEmployeesTable extends Migration
     public function down()
     {
         Schema::table('employees', function (Blueprint $table) {
-            //
+            if(Schema::hasColumn('token')) {
+                $table->renameColumn('company_id', 'company');
+            }
         });
     }
 }

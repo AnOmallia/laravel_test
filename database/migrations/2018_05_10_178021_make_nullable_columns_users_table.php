@@ -25,6 +25,10 @@ class MakeNullableColumnsUsersTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('users', function (Blueprint $table) {
+            if(Schema::hasColumn('token')) {
+                $table->text('token')->nullable(false)->change();
+            }
+        });
     }
 }

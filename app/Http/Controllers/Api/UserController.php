@@ -44,7 +44,7 @@ class UserController extends Controller {
     	$user = User::where('token', $request->token)->update(['token' => null]);
     	if($user){
     		$response = $user ? ['success'=>true, 'data'=>'You are successfully logged out'] : ['success'=>false, 'data'=>'Some error occured'];
-    		return response()->json($response );
+    		return response()->json($response, 401);
     	}
     }
 }

@@ -18,7 +18,6 @@ export default class CompaniesCreate extends Component {
             delId:"",
         };
         this.handleClick = this.handleClick.bind(this);
-        // this.handleEditClick = this.handleEditClick.bind(this);
         this.handleValueChange = this.handleValueChange.bind(this);
         this.handleDeleteClick = this.handleDeleteClick.bind(this);
         if(typeof this.props.match.params.id !== "undefined"){
@@ -67,24 +66,6 @@ export default class CompaniesCreate extends Component {
             [key]: e.target.value,
         })
     }
-
-	// handleEditClick(e) {
-	//     e.preventDefault();
-	//     let form = document.forms.namedItem("compForm");
-	// 	let formData = new FormData(form);
- //        formData.append('_method', 'PUT');
-	// 	axios.post(`/api/update/${this.state.id}`, formData, {headers:{'Content-Type': 'multipart/form-data' }}).then(response => {
- //            this.setState({
- //                id: response.data,
- //                name: response.data.name,
- //                email: response.data.email,
- //                website: response.data.website,
- //                logo: response.data.logo,
- //            })
- //        }).catch(error => {
- //            console.log(error);
- //        })
-	// }
 
     handleDeleteClick(e) {
         e.preventDefault();

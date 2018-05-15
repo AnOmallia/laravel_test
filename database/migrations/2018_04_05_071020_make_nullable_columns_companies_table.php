@@ -27,6 +27,12 @@ class MakeNullableColumnsCompaniesTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('companies', function (Blueprint $table) {
+            if(Schema::hasColumn('email', 'logo', 'website')) {
+                $table->string('email', 100)->nullable(false)->change();
+                $table->string('logo', 100)->nullable(false)->change();
+                $table->string('website', 100)->nullable(false)->change();
+            }
+        })
     }
 }
