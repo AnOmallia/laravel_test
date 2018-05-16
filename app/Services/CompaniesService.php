@@ -1,19 +1,31 @@
 <?php
 
-namespace App\Http\Controllers;
-
+namespace App\Services;
 
 use App\Models\Company;
 use File;
 
+
 class CompaniesService
 {
-
-    public function getAllCompanies(){
+    /**
+     * Get a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getAll()
+    {
         return Company::paginate(10);
     }
 
-    public function createCompany($inputs, $logo){
+    /**
+     * Store a newly created resource in storage andmovefile.
+     *
+     * @param  array  $inputs
+     * @param  file  $logo
+     * @return \Illuminate\Http\Response
+     */
+    public function create($inputs, $logo){
         $path = storage_path('app/public/logos');
         if (!file_exists($path)) {
             File::makeDirectory($path);
@@ -25,12 +37,28 @@ class CompaniesService
         return Company::create($inputs);
     }
 
-    public function getCompany($id)
+    /**
+     * Get the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function get($id)
     {
         return Company::whereId($id)->first();
     }
 
-    public function updateCompany($id, $inputs, $logo){
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @param  array  $inputs
+     * @param  file  $logo
+     * @return \Illuminate\Http\Response
+     */
+    public function update($id, $inputs, $logo)
+    {
     	$company = Company::whereId($id)->first();
     	if($logo){
 	        $path = storage_path('app/public/logos');
@@ -42,15 +70,17 @@ class CompaniesService
         return $company->update($inputs);
     }
 
-    public function removeCompany($id){
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function remove($id)
+    {
     	$company = Company::whereId($id)->first();
         $path = storage_path('app/public/logos');
         File::delete($path."/".$company->logo);
         return $company->delete();
     }
-
-    public function getAllCompaniesNamesArray(){
-        return Company::select('name', 'id')->get();
-    }
-
 }

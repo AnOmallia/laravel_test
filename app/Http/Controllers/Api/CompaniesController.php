@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\CompanyRequest;
-use App\Http\Controllers\CompaniesService;
+use App\Services\CompaniesService;
 use App\Http\Controllers\Controller;
 
 
@@ -17,7 +17,7 @@ class CompaniesController extends Controller
      */
     public function index(CompaniesService $companiesService)
     {
-        $companies = $companiesService->getAllCompanies();
+        $companies = $companiesService->getAll();
         return response()->json($companies);
     }
 
@@ -42,7 +42,7 @@ class CompaniesController extends Controller
      */
     public function show($id, CompaniesService $companiesService)
     {
-        $company = $companiesService->getCompany($id);
+        $company = $companiesService->get($id);
         return response()->json($company);
     }
 
@@ -56,7 +56,7 @@ class CompaniesController extends Controller
     public function update(CompanyRequest $request, $id, CompaniesService $companiesService)
     {
         $inputs = $request->inputs();
-        $company = $companiesService->updateCompany($id, $inputs, $request->logo);
+        $company = $companiesService->update($id, $inputs, $request->logo);
         return response()->json(null, 204);
     }
 
@@ -68,7 +68,7 @@ class CompaniesController extends Controller
      */
     public function destroy($id, CompaniesService $companiesService)
     {
-        $company = $companiesService->removeCompany($id);
+        $company = $companiesService->remove($id);
         return response()->json(null, 204);
     }
 }

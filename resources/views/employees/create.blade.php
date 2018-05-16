@@ -29,7 +29,11 @@
 						</div>
 						<div class="form-group">
 							<label for="company">Company name:</label>
-							{!! Form::select('company_id', $companies, null, ['class' => 'form-control', 'id' => 'company']) !!}
+							<select name="company_id" class="form-control">	
+								@foreach($companies as $company)
+								<option value="{{$company->id}}">{{$company->name}}</option>p
+								@endforeach
+							</select>
 						</div>
 						<button type="submit" class="btn btn-success">Save</button>
 					{!! Form::close() !!}

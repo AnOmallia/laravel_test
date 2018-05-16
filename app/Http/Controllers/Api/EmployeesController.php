@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Requests\EmployeeRequest;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\EmployeesService;
-use App\Http\Controllers\CompaniesService;
+use App\Services\EmployeesService;
+use App\Services\CompaniesService;
 
 
 class EmployeesController extends Controller
@@ -18,7 +18,7 @@ class EmployeesController extends Controller
      */
     public function index(EmployeesService $employeesService)
     {
-        $employees = $employeesService->getAllEmployees();
+        $employees = $employeesService->getAll();
         return response()->json($employees);
     }
 
@@ -31,7 +31,7 @@ class EmployeesController extends Controller
     public function store(EmployeeRequest $request, EmployeesService $employeesService)
     {
         $input = $request->inputs();
-        $employee = $employeesService->createEmployee($input);
+        $employee = $employeesService->create($input);
         return response()->json($employee, 201);
     }
 
@@ -43,8 +43,8 @@ class EmployeesController extends Controller
      */
     public function show($id, EmployeesService $employeesService, CompaniesService $companiesService)
     {
-        $employee = $employeesService->getEmployee($id);
-        $companies = $companiesService->getAllCompaniesNamesArray();
+        $employee = $employeesService->get($id);
+        $companies = $companiesService->getAll();
         return response()->json($employee);
     }
 
@@ -58,7 +58,7 @@ class EmployeesController extends Controller
     public function update(EmployeeRequest $request, $id, EmployeesService $employeesService)
     {
         $inputs = $request->inputs();
-        $companies = $employeesService->updateEmployee($id, $inputs);
+        $companies = $employeesService->update($id, $inputs);
         return response()->json(null, 204);
     }
 
@@ -70,13 +70,13 @@ class EmployeesController extends Controller
      */
     public function destroy($id, EmployeesService $employeesService)
     {
-        $employee = $employeesService->removeEmployee($id);
+        $employee = $employeesService->remove($id);
         return response()->json(null, 204);
     }
 
-    public function getCompanies(CompaniesService $companiesService)
-    {
-        $companies = $companiesService->getAllCompaniesNamesArray();
-        return response()->json($companies);
-    }
+    // public function getCompanies(CompaniesService $companiesService)
+    // {
+    //     $companies = $companiesService->getAllCompaniesNamesArray();
+    //     return response()->json($companies);
+    // }
 }

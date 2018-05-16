@@ -26,5 +26,5 @@ Route::middleware(['auth', 'admin'])->group(function () {
 });
 
 Route::get('app', function () {
-    return view('app');
+    return view('react.index');
 });

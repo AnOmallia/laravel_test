@@ -18,8 +18,7 @@ Route::group(['middleware' => ['jwt.auth']], function () {
   
 	Route::resource('companies', 'Api\CompaniesController');
 	Route::resource('employees', 'Api\EmployeesController');
-	Route::get('getcompanies', 'Api\EmployeesController@getCompanies');
-	Route::post('user/logout', 'Api\UserController@logOut');
+	Route::post('auth/logout', 'Api\AuthController@logOut');
 });
 
-Route::post('user/login', 'Api\UserController@login');
+Route::post('auth/login', 'Api\AuthController@login');

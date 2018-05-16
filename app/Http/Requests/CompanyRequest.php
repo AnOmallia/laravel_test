@@ -34,7 +34,7 @@ class CompanyRequest extends FormRequest
      */
     public function inputs()
     {
-        $inputs = $this->_method ? $this->except(['_token', '_method']) :$this->except(['_token']);
+        $inputs = $this->except(['_token', '_method']);
         return $inputs;
     }
 }

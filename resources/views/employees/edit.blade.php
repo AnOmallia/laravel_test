@@ -7,7 +7,6 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">Add Companie</div>
-
                 <div class="card-body">
 	                {!! Form::open(['url' => '/employees/'. $employee->id, 'method' => 'put']) !!}
 	                	{{ csrf_field() }}
@@ -29,7 +28,15 @@
 						</div>
 						<div class="form-group">
 							<label for="company">Company name:</label>
-							{!! Form::select('company_id', $companies, $employee->company, ['class' => 'form-control', 'id' => 'company']) !!}
+							<select name="company_id" class="form-control">	
+								@foreach($companies as $company)
+									@if($company->id == $employee->company_id)
+									<option value="{{$company->id}}" selected>{{$company->name}}</option>
+									@else
+									<option value="{{$company->id}}">{{$company->name}}</option>
+									@endif
+								@endforeach
+							</select>
 						</div>
 						{{-- <a class="btn btn-primary" href="/employees/{{$employee->id}}/edit">Edit</a> --}}
 						<button type="submit" class="btn btn-success">Save</button>

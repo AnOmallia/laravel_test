@@ -42,9 +42,9 @@ export default class EmployeesCreate extends Component {
     }
 
     getCompanyData(){
-        axios.get('/api/getcompanies').then(response => {
+        axios.get('/api/companies').then(response => {
             this.setState( (state) => {
-                state.companies = state.companies.concat(response.data);
+                state.companies = state.companies.concat(response.data.data);
                 return state;
             });
         }).catch(error => {

@@ -7,7 +7,6 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">Add Companie</div>
-
                 <div class="card-body">
                 	{{ csrf_field() }}
                 	<div class="form-group">
