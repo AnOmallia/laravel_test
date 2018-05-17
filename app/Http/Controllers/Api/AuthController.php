@@ -11,6 +11,12 @@ use JWTAuthException;
 
 class AuthController extends Controller {
 
+    /**
+     * Create token and store in storage.
+     *
+     * @param  \Illuminate\Http\Requests\LoginRequest  $request
+     * @return \Illuminate\Http\Response
+     */
     public function login(LoginRequest $request)
     {
         $user = User::where('email', $request->email)->get()->first();
@@ -41,6 +47,12 @@ class AuthController extends Controller {
         return response()->json($response, 201);
     }
 
+    /**
+     * Remove the specified users token from storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function logOut(Request $request) 
     {
     	$user = User::where('token', $request->token)->update(['token' => null]);

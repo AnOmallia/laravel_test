@@ -15,13 +15,12 @@ export default class Home extends Component {
 			    <div className="row justify-content-center">
 			        <div className="col-md-8">
 			            <div className="card">
-			                <div className="card-header">Dashboard</div>
+			                <div className="card-header">Welcome!!!</div>
 
 			                <div className="card-body">
-			                        <div className="alert alert-success">
-			                        </div>
-
-			                    You are logged in!
+		                        <div className="alert alert-success">
+		                        	You are successfully logged in!
+		                        </div>  
 			                </div>
 			            </div>
 			        </div>

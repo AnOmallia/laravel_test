@@ -12,8 +12,8 @@ import CompaniesCreate from './companies/CompaniesCreate';
 import Employees from './employees/Employees';
 import EmployeesCreate from './employees/EmployeesCreate';
 
-import PrivateRoute from './companies/PrivateRoute';
-import GuestRoute from './companies/GuestRoute';
+import PrivateRoute from './middlewares/PrivateRoute';
+import GuestRoute from './middlewares/GuestRoute';
 
 export default class App extends Component {
     constructor(props){
@@ -24,45 +24,41 @@ export default class App extends Component {
         };
         this.getToken = this.getToken.bind(this);
     }
-    // componentDidMount() {
-    //     console.log(localStorage.getItem('token'));
-    //     this.setState({ auth: localStorage.getItem('token') })
-    // }
-    // componentWillRecieveProps()
-    // UNSAFE_componentWillReceiveProps(nextProps) {
-    //     if(nextProps.token != this.props.token) {
-    //         this.setState({id: nextProps.id})
-    //     }
-    // }
 
     getToken(token){
         this.setState({auth: token});
     }
+    
     render() {
         let auth = !!this.state.auth;
         return (
             <div>
-                    <div>
-                        {auth && (<Navbar logout={this.getToken}/>)}
-                        <GuestRoute auth={auth} exact path="/login" component={Login} getToken={this.getToken}/>
-                        <Switch>
-                            <PrivateRoute auth={auth} exact path='/' component={Home} />
+                <div>
+                    {auth && (<Navbar logout={this.getToken}/>)}
 
-                            //    __________ Routes for Companies _______________
+                    <GuestRoute auth={auth} exact path="/login" component={Login} getToken={this.getToken}/>
 
-                            <PrivateRoute auth={auth} exact path='/companies' component={Companies} />
-                            <PrivateRoute auth={auth} exact path='/companies/create' component={CompaniesCreate} />
-                            <PrivateRoute auth={auth} exact path='/companies/show/:id' component={CompaniesCreate} />
-                            <PrivateRoute auth={auth} exact path='/companies/edit/:company' component={CompaniesCreate} />
+                    <Switch>
 
-                            //    __________ PrivateRoutes for Employess _______________
+                        //    __________ PrivateRoute for Home _____________________
 
-                            <PrivateRoute auth={auth} exact path='/employees' component={Employees} />
-                            <PrivateRoute auth={auth} exact path='/employees/create' component={EmployeesCreate} />
-                            <PrivateRoute auth={auth} exact path='/employees/show/:id' component={EmployeesCreate} />
-                            <PrivateRoute auth={auth} exact path='/employees/edit/:employee' component={EmployeesCreate} />
-                        </Switch>
-                    </div>
+                        <PrivateRoute auth={auth} exact path='/' component={Home} />
+
+                        //    __________ PrivateRoutes for Companies _______________
+
+                        <PrivateRoute auth={auth} exact path='/companies' component={Companies} />
+                        <PrivateRoute auth={auth} exact path='/companies/create' component={CompaniesCreate} />
+                        <PrivateRoute auth={auth} exact path='/companies/show/:id' component={CompaniesCreate} />
+                        <PrivateRoute auth={auth} exact path='/companies/edit/:company' component={CompaniesCreate} />
+
+                        //    __________ PrivateRoutes for Employess _______________
+
+                        <PrivateRoute auth={auth} exact path='/employees' component={Employees} />
+                        <PrivateRoute auth={auth} exact path='/employees/create' component={EmployeesCreate} />
+                        <PrivateRoute auth={auth} exact path='/employees/show/:id' component={EmployeesCreate} />
+                        <PrivateRoute auth={auth} exact path='/employees/edit/:employee' component={EmployeesCreate} />
+                    </Switch>
+                </div>
             </div>
         );
     }

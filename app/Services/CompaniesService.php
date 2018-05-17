@@ -25,7 +25,8 @@ class CompaniesService
      * @param  file  $logo
      * @return \Illuminate\Http\Response
      */
-    public function create($inputs, $logo){
+    public function create($inputs, $logo)
+    {
         $path = storage_path('app/public/logos');
         if (!file_exists($path)) {
             File::makeDirectory($path);

@@ -19,7 +19,6 @@ export default class Navbar extends Component {
         axios.post('api/auth/logout', {token: localStorage.getItem('token')}).then(response => {
             axios.defaults.headers.common["Authorization"] = "";
             localStorage.removeItem('token');
-            console.log(this.state)
             this.props.logout(null);
         }).catch(error => {
             localStorage.removeItem('token');

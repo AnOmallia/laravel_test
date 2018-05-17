@@ -13,6 +13,7 @@ class CompaniesController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \App\Services\CompaniesService  $companiesService
      * @return \Illuminate\Http\Response
      */
     public function index(CompaniesService $companiesService)
@@ -24,19 +25,21 @@ class CompaniesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Requests\CompanyRequest  $request
+     * @param  \App\Services\CompaniesService  $companiesService
      * @return \Illuminate\Http\Response
      */
     public function store(CompanyRequest $request, CompaniesService $companiesService)
     {
         $inputs = $request->inputs();
-        $company = $companiesService->createCompany($inputs, $request->logo);
+        $company = $companiesService->create($inputs, $request->logo);
         return response()->json($company, 201);
     }
 
     /**
      * Display the specified resource.
      *
+     * @param  \App\Services\CompaniesService  $companiesService
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -49,7 +52,8 @@ class CompaniesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Requests\CompanyRequest  $request
+     * @param  \App\Services\CompaniesService  $companiesService
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -63,6 +67,7 @@ class CompaniesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param  \App\Services\CompaniesService  $companiesService
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

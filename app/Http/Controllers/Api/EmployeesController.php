@@ -14,6 +14,7 @@ class EmployeesController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \App\Services\EmployeesService  $employeesService
      * @return \Illuminate\Http\Response
      */
     public function index(EmployeesService $employeesService)
@@ -25,7 +26,8 @@ class EmployeesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Requests\EmployeeRequest  $request
+     * @param  \App\Services\EmployeesService  $employeesService
      * @return \Illuminate\Http\Response
      */
     public function store(EmployeeRequest $request, EmployeesService $employeesService)
@@ -38,6 +40,8 @@ class EmployeesController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param  \App\Services\EmployeesService  $employeesService
+     * @param  \App\Services\CompaniesService  $companiesService
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -51,7 +55,8 @@ class EmployeesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Requests\EmployeeRequest  $request
+     * @param  \App\Services\EmployeesService  $employeesService
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -65,6 +70,7 @@ class EmployeesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param  \App\Services\EmployeesService  $employeesService
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -73,10 +79,4 @@ class EmployeesController extends Controller
         $employee = $employeesService->remove($id);
         return response()->json(null, 204);
     }
-
-    // public function getCompanies(CompaniesService $companiesService)
-    // {
-    //     $companies = $companiesService->getAllCompaniesNamesArray();
-    //     return response()->json($companies);
-    // }
 }
