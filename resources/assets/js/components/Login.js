@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, Switch, Redirect } from 'react-router';
 import { HashRouter , Link } from 'react-router-dom';
+// import { HashRouter , Link } from 'react-router-dom';
+// import { Router, Route, Switch, Redirect } from 'react-router';
+
 
 export default class Login extends Component {
     constructor(props){
@@ -34,6 +37,7 @@ export default class Login extends Component {
     	let redirect;
     	if(this.state.auth) {
             redirect =  <Redirect to="/" />;
+            // return <Redirect to={"/companies"} />;
         }
         return (
         	<div className="container">

@@ -5,24 +5,59 @@ import CompaniesDelete from './CompaniesDelete';
 import DeleteModal from './../DeleteModal';
 
 export default class Companies extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             data: [],
             delId: '',
             auth: localStorage.getItem('token'),
+            url: '/api/companies',
+            pagination: [],
         }
         this.handleDeleteClick = this.handleDeleteClick.bind(this);
     }
 
-    componentWillMount(){
-        let $this = this;
-        axios.get('/api/companies').then(response => {
+    componentWillMount() {
+        this.fetchCompanies()
+    }
+
+    fetchCompanies() {
+        axios.get(this.state.url).then(response => {
             this.setState({
                 data: response.data.data
             })
+            this.makePagination(response.data)
         }).catch(error => {
             console.log(error);
+        })
+    }
+
+    makePagination(data) {
+        let pagination = {
+            current_page: data.current_page,
+            last_page: data.last_page,
+            next_page_url: data.next_page_url,
+            prev_page_url: data.prev_page_url,
+        }
+
+        this.setState({
+            pagination: pagination,
+        })
+    }
+
+    loadNext() {
+        this.setState({
+            url: this.state.pagination.next_page_url,
+        }, () => {
+            this.fetchCompanies()
+        })
+    }
+
+    loadPrev() {
+        this.setState({
+            url: this.state.pagination.prev_page_url,
+        }, () => {
+            this.fetchCompanies()
         })
     }
 
@@ -34,6 +69,17 @@ export default class Companies extends Component {
 
 
     render() {
+        let buttons
+        if(this.state.pagination.current_page == 1){
+            buttons = (<div><button className="btn btn-primary" disabled onClick={this.loadPrev.bind(this)}> Prev </button>
+                <button className="btn btn-primary" onClick={this.loadNext.bind(this)}> Next </button></div>)
+        } else if(this.state.pagination.current_page == this.state.pagination.last_page){
+            buttons = (<div><button className="btn btn-primary" onClick={this.loadPrev.bind(this)}> Prev </button>
+                <button className="btn btn-primary" disabled onClick={this.loadNext.bind(this)}> Next </button></div>)
+        } else {
+             buttons = (<div><button className="btn btn-primary" onClick={this.loadPrev.bind(this)}> Prev </button>
+                <button className="btn btn-primary" onClick={this.loadNext.bind(this)}> Next </button></div>)
+        }
         return (
             <div className="container">
                 <Link className="btn btn-primary" to="/companies/create" ><i className="fa fa-plus" aria-hidden="true"></i> Add Company </Link>
@@ -67,6 +113,7 @@ export default class Companies extends Component {
                         )}
                         </tbody>
                     </table>
+                      {buttons}
                 </div>
                 <DeleteModal id={this.state.delId} />
                 

@@ -7,10 +7,10 @@ import Navbar from './Navbar';
 import Login from './Login';
 
 import Companies from './companies/Companies';
-import CompaniesCreate from './companies/CompaniesCreate';
+import CompaniesResource from './companies/CompaniesResource';
 
 import Employees from './employees/Employees';
-import EmployeesCreate from './employees/EmployeesCreate';
+import EmployeesResource from './employees/EmployeesResource';
 
 import PrivateRoute from './middlewares/PrivateRoute';
 import GuestRoute from './middlewares/GuestRoute';
@@ -47,16 +47,16 @@ export default class App extends Component {
                         //    __________ PrivateRoutes for Companies _______________
 
                         <PrivateRoute auth={auth} exact path='/companies' component={Companies} />
-                        <PrivateRoute auth={auth} exact path='/companies/create' component={CompaniesCreate} />
-                        <PrivateRoute auth={auth} exact path='/companies/show/:id' component={CompaniesCreate} />
-                        <PrivateRoute auth={auth} exact path='/companies/edit/:company' component={CompaniesCreate} />
+                        <PrivateRoute auth={auth} exact path='/companies/create' component={CompaniesResource} />
+                        <PrivateRoute auth={auth} exact path='/companies/show/:id' component={CompaniesResource} />
+                        <PrivateRoute auth={auth} exact path='/companies/edit/:company' component={CompaniesResource} />
 
                         //    __________ PrivateRoutes for Employess _______________
 
                         <PrivateRoute auth={auth} exact path='/employees' component={Employees} />
-                        <PrivateRoute auth={auth} exact path='/employees/create' component={EmployeesCreate} />
-                        <PrivateRoute auth={auth} exact path='/employees/show/:id' component={EmployeesCreate} />
-                        <PrivateRoute auth={auth} exact path='/employees/edit/:employee' component={EmployeesCreate} />
+                        <PrivateRoute auth={auth} exact path='/employees/create' component={EmployeesResource} />
+                        <PrivateRoute auth={auth} exact path='/employees/show/:id' component={EmployeesResource} />
+                        <PrivateRoute auth={auth} exact path='/employees/edit/:employee' component={EmployeesResource} />
                     </Switch>
                 </div>
             </div>

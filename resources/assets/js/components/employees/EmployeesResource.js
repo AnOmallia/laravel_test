@@ -6,7 +6,7 @@ import EmployeesDelete from './EmployeesDelete';
 import DeleteModal from './../DeleteModal';
 
 
-export default class EmployeesCreate extends Component {
+export default class EmployeesResource extends Component {
     constructor(props){
         super(props);
         this.state = {

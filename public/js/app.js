@@ -16401,7 +16401,9 @@ var Companies = function (_Component) {
         _this.state = {
             data: [],
             delId: '',
-            auth: localStorage.getItem('token')
+            auth: localStorage.getItem('token'),
+            url: '/api/companies',
+            pagination: []
         };
         _this.handleDeleteClick = _this.handleDeleteClick.bind(_this);
         return _this;
@@ -16410,15 +16412,56 @@ var Companies = function (_Component) {
     _createClass(Companies, [{
         key: 'componentWillMount',
         value: function componentWillMount() {
+            this.fetchCompanies();
+        }
+    }, {
+        key: 'fetchCompanies',
+        value: function fetchCompanies() {
             var _this2 = this;
 
-            var $this = this;
-            axios.get('/api/companies').then(function (response) {
+            axios.get(this.state.url).then(function (response) {
                 _this2.setState({
                     data: response.data.data
                 });
+                _this2.makePagination(response.data);
             }).catch(function (error) {
                 console.log(error);
+            });
+        }
+    }, {
+        key: 'makePagination',
+        value: function makePagination(data) {
+            var pagination = {
+                current_page: data.current_page,
+                last_page: data.last_page,
+                next_page_url: data.next_page_url,
+                prev_page_url: data.prev_page_url
+            };
+
+            this.setState({
+                pagination: pagination
+            });
+        }
+    }, {
+        key: 'loadNext',
+        value: function loadNext() {
+            var _this3 = this;
+
+            this.setState({
+                url: this.state.pagination.next_page_url
+            }, function () {
+                _this3.fetchCompanies();
+            });
+        }
+    }, {
+        key: 'loadPrev',
+        value: function loadPrev() {
+            var _this4 = this;
+
+            this.setState({
+                url: this.state.pagination.prev_page_url
+            }, function () {
+                _this4.fetchCompanies();
             });
         }
     }, {
@@ -16431,8 +16474,55 @@ var Companies = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            var _this3 = this;
+            var _this5 = this;
 
+            var buttons = void 0;
+            if (this.state.pagination.current_page == 1) {
+                buttons = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    null,
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'button',
+                        { className: 'btn btn-primary', disabled: true, onClick: this.loadPrev.bind(this) },
+                        ' Prev '
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'button',
+                        { className: 'btn btn-primary', onClick: this.loadNext.bind(this) },
+                        ' Next '
+                    )
+                );
+            } else if (this.state.pagination.current_page == this.state.pagination.last_page) {
+                buttons = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    null,
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'button',
+                        { className: 'btn btn-primary', onClick: this.loadPrev.bind(this) },
+                        ' Prev '
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'button',
+                        { className: 'btn btn-primary', disabled: true, onClick: this.loadNext.bind(this) },
+                        ' Next '
+                    )
+                );
+            } else {
+                buttons = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    null,
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'button',
+                        { className: 'btn btn-primary', onClick: this.loadPrev.bind(this) },
+                        ' Prev '
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'button',
+                        { className: 'btn btn-primary', onClick: this.loadNext.bind(this) },
+                        ' Next '
+                    )
+                );
+            }
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
                 { className: 'container' },
@@ -16526,7 +16616,7 @@ var Companies = function (_Component) {
                                             ),
                                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                                 'button',
-                                                { className: 'btn btn-danger', 'data-toggle': 'modal', name: company.id, 'data-target': '#myModal', onClick: _this3.handleDeleteClick },
+                                                { className: 'btn btn-danger', 'data-toggle': 'modal', name: company.id, 'data-target': '#myModal', onClick: _this5.handleDeleteClick },
                                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-trash', 'aria-hidden': 'true' })
                                             )
                                         )
@@ -16534,7 +16624,8 @@ var Companies = function (_Component) {
                                 );
                             })
                         )
-                    )
+                    ),
+                    buttons
                 ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__DeleteModal__["a" /* default */], { id: this.state.delId })
             );
@@ -38798,11 +38889,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Navbar__ = __webpack_require__(111);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Login__ = __webpack_require__(112);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__companies_Companies__ = __webpack_require__(50);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__companies_CompaniesCreate__ = __webpack_require__(113);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__companies_CompaniesResource__ = __webpack_require__(113);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__employees_Employees__ = __webpack_require__(114);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__employees_EmployeesCreate__ = __webpack_require__(115);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__middlewares_PrivateRoute__ = __webpack_require__(123);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__middlewares_GuestRoute__ = __webpack_require__(124);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__employees_EmployeesResource__ = __webpack_require__(115);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__middlewares_PrivateRoute__ = __webpack_require__(116);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__middlewares_GuestRoute__ = __webpack_require__(117);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -38868,14 +38959,14 @@ var App = function (_Component) {
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_11__middlewares_PrivateRoute__["a" /* default */], { auth: auth, exact: true, path: '/', component: __WEBPACK_IMPORTED_MODULE_4__Home__["a" /* default */] }),
                         '//    __________ PrivateRoutes for Companies _______________',
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_11__middlewares_PrivateRoute__["a" /* default */], { auth: auth, exact: true, path: '/companies', component: __WEBPACK_IMPORTED_MODULE_7__companies_Companies__["a" /* default */] }),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_11__middlewares_PrivateRoute__["a" /* default */], { auth: auth, exact: true, path: '/companies/create', component: __WEBPACK_IMPORTED_MODULE_8__companies_CompaniesCreate__["a" /* default */] }),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_11__middlewares_PrivateRoute__["a" /* default */], { auth: auth, exact: true, path: '/companies/show/:id', component: __WEBPACK_IMPORTED_MODULE_8__companies_CompaniesCreate__["a" /* default */] }),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_11__middlewares_PrivateRoute__["a" /* default */], { auth: auth, exact: true, path: '/companies/edit/:company', component: __WEBPACK_IMPORTED_MODULE_8__companies_CompaniesCreate__["a" /* default */] }),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_11__middlewares_PrivateRoute__["a" /* default */], { auth: auth, exact: true, path: '/companies/create', component: __WEBPACK_IMPORTED_MODULE_8__companies_CompaniesResource__["a" /* default */] }),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_11__middlewares_PrivateRoute__["a" /* default */], { auth: auth, exact: true, path: '/companies/show/:id', component: __WEBPACK_IMPORTED_MODULE_8__companies_CompaniesResource__["a" /* default */] }),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_11__middlewares_PrivateRoute__["a" /* default */], { auth: auth, exact: true, path: '/companies/edit/:company', component: __WEBPACK_IMPORTED_MODULE_8__companies_CompaniesResource__["a" /* default */] }),
                         '//    __________ PrivateRoutes for Employess _______________',
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_11__middlewares_PrivateRoute__["a" /* default */], { auth: auth, exact: true, path: '/employees', component: __WEBPACK_IMPORTED_MODULE_9__employees_Employees__["a" /* default */] }),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_11__middlewares_PrivateRoute__["a" /* default */], { auth: auth, exact: true, path: '/employees/create', component: __WEBPACK_IMPORTED_MODULE_10__employees_EmployeesCreate__["a" /* default */] }),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_11__middlewares_PrivateRoute__["a" /* default */], { auth: auth, exact: true, path: '/employees/show/:id', component: __WEBPACK_IMPORTED_MODULE_10__employees_EmployeesCreate__["a" /* default */] }),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_11__middlewares_PrivateRoute__["a" /* default */], { auth: auth, exact: true, path: '/employees/edit/:employee', component: __WEBPACK_IMPORTED_MODULE_10__employees_EmployeesCreate__["a" /* default */] })
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_11__middlewares_PrivateRoute__["a" /* default */], { auth: auth, exact: true, path: '/employees/create', component: __WEBPACK_IMPORTED_MODULE_10__employees_EmployeesResource__["a" /* default */] }),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_11__middlewares_PrivateRoute__["a" /* default */], { auth: auth, exact: true, path: '/employees/show/:id', component: __WEBPACK_IMPORTED_MODULE_10__employees_EmployeesResource__["a" /* default */] }),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_11__middlewares_PrivateRoute__["a" /* default */], { auth: auth, exact: true, path: '/employees/edit/:employee', component: __WEBPACK_IMPORTED_MODULE_10__employees_EmployeesResource__["a" /* default */] })
                     )
                 )
             );
@@ -60600,6 +60691,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 
+// import { HashRouter , Link } from 'react-router-dom';
+// import { Router, Route, Switch, Redirect } from 'react-router';
+
 
 var Login = function (_Component) {
     _inherits(Login, _Component);
@@ -60643,6 +60737,7 @@ var Login = function (_Component) {
             var redirect = void 0;
             if (this.state.auth) {
                 redirect = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2_react_router__["a" /* Redirect */], { to: '/' });
+                // return <Redirect to={"/companies"} />;
             }
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
@@ -60753,13 +60848,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 
-var CompaniesCreate = function (_Component) {
-    _inherits(CompaniesCreate, _Component);
+var CompaniesResource = function (_Component) {
+    _inherits(CompaniesResource, _Component);
 
-    function CompaniesCreate(props) {
-        _classCallCheck(this, CompaniesCreate);
+    function CompaniesResource(props) {
+        _classCallCheck(this, CompaniesResource);
 
-        var _this = _possibleConstructorReturn(this, (CompaniesCreate.__proto__ || Object.getPrototypeOf(CompaniesCreate)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (CompaniesResource.__proto__ || Object.getPrototypeOf(CompaniesResource)).call(this, props));
 
         _this.state = {
             redirect: false,
@@ -60770,6 +60865,7 @@ var CompaniesCreate = function (_Component) {
             logo: "",
             delId: ""
         };
+
         _this.handleClick = _this.handleClick.bind(_this);
         _this.handleValueChange = _this.handleValueChange.bind(_this);
         _this.handleDeleteClick = _this.handleDeleteClick.bind(_this);
@@ -60782,7 +60878,7 @@ var CompaniesCreate = function (_Component) {
         return _this;
     }
 
-    _createClass(CompaniesCreate, [{
+    _createClass(CompaniesResource, [{
         key: 'getData',
         value: function getData(id) {
             var _this2 = this;
@@ -60955,10 +61051,10 @@ var CompaniesCreate = function (_Component) {
         }
     }]);
 
-    return CompaniesCreate;
+    return CompaniesResource;
 }(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
 
-/* harmony default export */ __webpack_exports__["a"] = (CompaniesCreate);
+/* harmony default export */ __webpack_exports__["a"] = (CompaniesResource);
 
 /***/ }),
 /* 114 */
@@ -60996,7 +61092,9 @@ var Employees = function (_Component) {
 
         _this.state = {
             data: [],
-            delId: ''
+            delId: '',
+            url: '/api/employees',
+            pagination: []
         };
         _this.handleDeleteClick = _this.handleDeleteClick.bind(_this);
         return _this;
@@ -61005,16 +61103,57 @@ var Employees = function (_Component) {
     _createClass(Employees, [{
         key: 'componentWillMount',
         value: function componentWillMount() {
+            this.fetchEmployees();
+        }
+    }, {
+        key: 'fetchEmployees',
+        value: function fetchEmployees() {
             var _this2 = this;
 
-            var $this = this;
-
-            axios.get('api/employees').then(function (response) {
+            axios.get(this.state.url).then(function (response) {
                 _this2.setState({
                     data: response.data.data
                 });
+                _this2.makePagination(response.data);
             }).catch(function (error) {
                 console.log(error);
+            });
+        }
+    }, {
+        key: 'makePagination',
+        value: function makePagination(data) {
+            var pagination = {
+                current_page: data.current_page,
+                last_page: data.last_page,
+                next_page_url: data.next_page_url,
+                prev_page_url: data.prev_page_url
+            };
+            console.log(pagination);
+
+            this.setState({
+                pagination: pagination
+            });
+        }
+    }, {
+        key: 'loadNext',
+        value: function loadNext() {
+            var _this3 = this;
+
+            this.setState({
+                url: this.state.pagination.next_page_url
+            }, function () {
+                _this3.fetchEmployees();
+            });
+        }
+    }, {
+        key: 'loadPrev',
+        value: function loadPrev() {
+            var _this4 = this;
+
+            this.setState({
+                url: this.state.pagination.prev_page_url
+            }, function () {
+                _this4.fetchEmployees();
             });
         }
     }, {
@@ -61027,8 +61166,70 @@ var Employees = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            var _this3 = this;
+            var _this5 = this;
 
+            var buttons = void 0;
+            if (this.state.pagination.last_page == 1) {
+                buttons = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    null,
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'button',
+                        { className: 'btn btn-primary', disabled: true, onClick: this.loadPrev.bind(this) },
+                        ' Prev '
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'button',
+                        { className: 'btn btn-primary', disabled: true, onClick: this.loadNext.bind(this) },
+                        ' Next '
+                    )
+                );
+            } else if (this.state.pagination.current_page == 1) {
+                buttons = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    null,
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'button',
+                        { className: 'btn btn-primary', disabled: true, onClick: this.loadPrev.bind(this) },
+                        ' Prev '
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'button',
+                        { className: 'btn btn-primary', onClick: this.loadNext.bind(this) },
+                        ' Next '
+                    )
+                );
+            } else if (this.state.pagination.current_page == this.state.pagination.last_page) {
+                buttons = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    null,
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'button',
+                        { className: 'btn btn-primary', onClick: this.loadPrev.bind(this) },
+                        ' Prev '
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'button',
+                        { className: 'btn btn-primary', disabled: true, onClick: this.loadNext.bind(this) },
+                        ' Next '
+                    )
+                );
+            } else {
+                buttons = __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    null,
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'button',
+                        { className: 'btn btn-primary', onClick: this.loadPrev.bind(this) },
+                        ' Prev '
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'button',
+                        { className: 'btn btn-primary', onClick: this.loadNext.bind(this) },
+                        ' Next '
+                    )
+                );
+            }
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
                 { className: 'container' },
@@ -61132,7 +61333,7 @@ var Employees = function (_Component) {
                                             ),
                                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                                 'button',
-                                                { className: 'btn btn-danger', 'data-toggle': 'modal', name: employee.id, 'data-target': '#myModal', onClick: _this3.handleDeleteClick },
+                                                { className: 'btn btn-danger', 'data-toggle': 'modal', name: employee.id, 'data-target': '#myModal', onClick: _this5.handleDeleteClick },
                                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fa fa-trash', 'aria-hidden': 'true' })
                                             )
                                         )
@@ -61140,7 +61341,8 @@ var Employees = function (_Component) {
                                 );
                             })
                         )
-                    )
+                    ),
+                    buttons
                 ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__DeleteModal__["a" /* default */], { id: this.state.delId })
             );
@@ -61182,13 +61384,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 
 
-var EmployeesCreate = function (_Component) {
-    _inherits(EmployeesCreate, _Component);
+var EmployeesResource = function (_Component) {
+    _inherits(EmployeesResource, _Component);
 
-    function EmployeesCreate(props) {
-        _classCallCheck(this, EmployeesCreate);
+    function EmployeesResource(props) {
+        _classCallCheck(this, EmployeesResource);
 
-        var _this = _possibleConstructorReturn(this, (EmployeesCreate.__proto__ || Object.getPrototypeOf(EmployeesCreate)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (EmployeesResource.__proto__ || Object.getPrototypeOf(EmployeesResource)).call(this, props));
 
         _this.state = {
             redirect: false,
@@ -61223,7 +61425,7 @@ var EmployeesCreate = function (_Component) {
         return _this;
     }
 
-    _createClass(EmployeesCreate, [{
+    _createClass(EmployeesResource, [{
         key: 'getCompanyData',
         value: function getCompanyData() {
             var _this2 = this;
@@ -61457,25 +61659,13 @@ var EmployeesCreate = function (_Component) {
         }
     }]);
 
-    return EmployeesCreate;
+    return EmployeesResource;
 }(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
 
-/* harmony default export */ __webpack_exports__["a"] = (EmployeesCreate);
+/* harmony default export */ __webpack_exports__["a"] = (EmployeesResource);
 
 /***/ }),
-/* 116 */,
-/* 117 */,
-/* 118 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 119 */,
-/* 120 */,
-/* 121 */,
-/* 122 */,
-/* 123 */
+/* 116 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -61506,7 +61696,7 @@ var PrivateRoute = function PrivateRoute(_ref) {
 /* harmony default export */ __webpack_exports__["a"] = (PrivateRoute);
 
 /***/ }),
-/* 124 */
+/* 117 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -61535,6 +61725,12 @@ var GuestRoute = function GuestRoute(_ref) {
 };
 
 /* harmony default export */ __webpack_exports__["a"] = (GuestRoute);
+
+/***/ }),
+/* 118 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);
