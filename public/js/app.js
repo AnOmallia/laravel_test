@@ -60863,7 +60863,8 @@ var CompaniesResource = function (_Component) {
             email: "",
             website: "",
             logo: "",
-            delId: ""
+            delId: "",
+            errors: []
         };
 
         _this.handleClick = _this.handleClick.bind(_this);
@@ -60913,14 +60914,18 @@ var CompaniesResource = function (_Component) {
                     redirect: true
                 });
             }).catch(function (error) {
-                console.log(error);
+                _this3.setState({
+                    errors: error.response.data.errors
+                });
             });
         }
     }, {
         key: 'handleValueChange',
         value: function handleValueChange(e) {
+            var _setState;
+
             var key = e.currentTarget.name;
-            this.setState(_defineProperty({}, key, e.target.value));
+            this.setState((_setState = {}, _defineProperty(_setState, key, e.target.value), _defineProperty(_setState, 'errors', []), _setState));
         }
     }, {
         key: 'handleDeleteClick',
@@ -61002,6 +61007,12 @@ var CompaniesResource = function (_Component) {
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'div',
                                         { className: 'form-group' },
+                                        this.state.errors.name ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            'div',
+                                            { style: { color: 'red' } },
+                                            this.state.errors.name,
+                                            ' '
+                                        ) : null,
                                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                             'label',
                                             { htmlFor: 'firstName' },
@@ -61032,6 +61043,12 @@ var CompaniesResource = function (_Component) {
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'div',
                                         { className: 'form-group' },
+                                        this.state.errors.logo ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            'div',
+                                            { style: { color: 'red' } },
+                                            this.state.errors.logo,
+                                            ' '
+                                        ) : null,
                                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                             'label',
                                             { htmlFor: 'logo' },
@@ -61401,11 +61418,11 @@ var EmployeesResource = function (_Component) {
             phone: "",
             company: "",
             delId: "",
-            companies: []
+            companies: [],
+            errors: []
         };
 
         _this.handleClick = _this.handleClick.bind(_this);
-        _this.handleEditClick = _this.handleEditClick.bind(_this);
         _this.handleValueChange = _this.handleValueChange.bind(_this);
         _this.handleDeleteClick = _this.handleDeleteClick.bind(_this);
         _this.getCompaniesName = _this.getCompaniesName.bind(_this);
@@ -61475,39 +61492,22 @@ var EmployeesResource = function (_Component) {
                     redirect: true
                 });
             }).catch(function (error) {
-                console.log(error);
+                _this4.setState({
+                    errors: error.response.data.errors
+                });
             });
         }
     }, {
         key: 'handleValueChange',
         value: function handleValueChange(e) {
-            this.setState(_defineProperty({}, e.currentTarget.name, e.target.value));
+            var _setState;
+
+            this.setState((_setState = {}, _defineProperty(_setState, e.currentTarget.name, e.target.value), _defineProperty(_setState, 'errors', []), _setState));
         }
     }, {
         key: 'getCompaniesName',
         value: function getCompaniesName() {
             this.getCompanyData();
-        }
-    }, {
-        key: 'handleEditClick',
-        value: function handleEditClick(e) {
-            var _this5 = this;
-
-            e.preventDefault();
-            var form = document.forms.namedItem("employeeForm");
-            var formData = new FormData(form);
-            axios.post('/api/update/' + this.state.id, formData, { headers: { 'Content-Type': 'multipart/form-data' } }).then(function (response) {
-                _this5.setState({
-                    id: response.data,
-                    first_name: response.data.first_name,
-                    last_name: response.data.last_name,
-                    email: response.data.email,
-                    phone: response.data.phone,
-                    company: response.data.company
-                });
-            }).catch(function (error) {
-                console.log(error);
-            });
         }
     }, {
         key: 'handleDeleteClick',
@@ -61601,6 +61601,12 @@ var EmployeesResource = function (_Component) {
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'div',
                                         { className: 'form-group' },
+                                        this.state.errors.first_name ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            'div',
+                                            { style: { color: 'red' } },
+                                            this.state.errors.first_name,
+                                            ' '
+                                        ) : null,
                                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                             'label',
                                             { htmlFor: 'firstName' },
@@ -61611,6 +61617,12 @@ var EmployeesResource = function (_Component) {
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'div',
                                         { className: 'form-group' },
+                                        this.state.errors.last_name ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            'div',
+                                            { style: { color: 'red' } },
+                                            this.state.errors.last_name,
+                                            ' '
+                                        ) : null,
                                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                             'label',
                                             { htmlFor: 'lastName' },
@@ -61641,6 +61653,12 @@ var EmployeesResource = function (_Component) {
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'div',
                                         { className: 'form-group' },
+                                        this.state.errors.company_id ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            'div',
+                                            { style: { color: 'red' } },
+                                            this.state.errors.company_id,
+                                            ' '
+                                        ) : null,
                                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                             'label',
                                             { htmlFor: 'company' },

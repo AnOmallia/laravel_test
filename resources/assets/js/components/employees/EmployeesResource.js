@@ -19,10 +19,10 @@ export default class EmployeesResource extends Component {
             company: "",
             delId: "",
             companies: [],
+            errors: [],
         };
 
         this.handleClick = this.handleClick.bind(this);
-        this.handleEditClick = this.handleEditClick.bind(this);
         this.handleValueChange = this.handleValueChange.bind(this);
         this.handleDeleteClick = this.handleDeleteClick.bind(this);
         this.getCompaniesName = this.getCompaniesName.bind(this);
@@ -81,36 +81,22 @@ export default class EmployeesResource extends Component {
                 redirect: true,
             })
         }).catch(error => {
-            console.log(error);
+            this.setState({
+                errors: error.response.data.errors,
+            })
         })
 	}
 
     handleValueChange(e) {
         this.setState({
             [e.currentTarget.name]: e.target.value,
+            errors: [],
         })
     }
 
     getCompaniesName() {
         this.getCompanyData();
     }
-	handleEditClick(e) {
-	    e.preventDefault();
-	    let form = document.forms.namedItem("employeeForm");
-		let formData = new FormData(form);
-		axios.post(`/api/update/${this.state.id}`, formData, {headers:{'Content-Type': 'multipart/form-data' }}).then(response => {
-            this.setState({
-                id: response.data,
-                first_name: response.data.first_name,
-                last_name: response.data.last_name,
-                email: response.data.email,
-                phone: response.data.phone,
-                company: response.data.company,
-            })
-        }).catch(error => {
-            console.log(error);
-        })
-	}
 
     handleDeleteClick(e) {
         e.preventDefault();
@@ -158,10 +144,12 @@ export default class EmployeesResource extends Component {
 			                <div className="card-body">
 			                	<form action="#" name="employeeForm">
 				                	<div className="form-group">
+                                        {this.state.errors.first_name ? (<div style={{color:'red'}}>{this.state.errors.first_name} </div> ): null}
 										<label htmlFor="firstName">First name:</label>
 										<input type="text" name="first_name" className="form-control" id="firstName" value={this.state.first_name} onChange={this.handleValueChange}/>
 									</div>
 									<div className="form-group">
+                                        {this.state.errors.last_name ? (<div style={{color:'red'}}>{this.state.errors.last_name} </div> ): null}
 										<label htmlFor="lastName">Last name:</label>
 										<input type="text" name="last_name" className="form-control" id="lastName" value={this.state.last_name} onChange={this.handleValueChange} />
 									</div>
@@ -174,6 +162,7 @@ export default class EmployeesResource extends Component {
                                         <input type="tel" name="phone" className="form-control" id="phone" value={this.state.phone} onChange={this.handleValueChange} />
                                     </div>
                                     <div className="form-group">
+                                        {this.state.errors.company_id ? (<div style={{color:'red'}}>{this.state.errors.company_id} </div> ): null}
                                         <label htmlFor="company">Company name:</label>
                                         {select}
                                     </div>

@@ -17,6 +17,7 @@ export default class CompaniesResource extends Component {
             website: "",
             logo: "",
             delId:"",
+            errors: [],
         };
 
         this.handleClick = this.handleClick.bind(this);
@@ -58,7 +59,9 @@ export default class CompaniesResource extends Component {
                 redirect: true,
             })
         }).catch(error => {
-            console.log(error);
+            this.setState({
+                errors: error.response.data.errors,
+            })
         })
     }
 
@@ -66,6 +69,7 @@ export default class CompaniesResource extends Component {
         let key = e.currentTarget.name;
         this.setState({
             [key]: e.target.value,
+            errors:[],
         })
     }
 
@@ -107,6 +111,7 @@ export default class CompaniesResource extends Component {
                             <div className="card-body">
                                 <form action="#" name="compForm">
                                     <div className="form-group">
+                                        {this.state.errors.name ? (<div style={{color:'red'}}>{this.state.errors.name} </div> ): null}
                                         <label htmlFor="firstName">Company name:</label>
                                         <input type="text" name="name" className="form-control" id="firstName" value={this.state.name} onChange={this.handleValueChange}/>
                                     </div>
@@ -120,6 +125,7 @@ export default class CompaniesResource extends Component {
                                     </div>
                                     
                                     <div className="form-group">
+                                        {this.state.errors.logo ? (<div style={{color:'red'}}>{this.state.errors.logo} </div> ): null}
                                         <label htmlFor="logo">Company logo:</label>
                                         <input type="file" name="logo" className="form-control" id="logo" />
                                     </div>
